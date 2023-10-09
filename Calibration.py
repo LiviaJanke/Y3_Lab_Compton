@@ -22,8 +22,8 @@ AM_241_v3_channel_n = Am_241_v3_df['channel_n']
 #%%
 
 
-plt.plot(AM_241_v3_channel_n, AM_241_v3_events)
-plt.show()
+#plt.plot(AM_241_v3_channel_n, AM_241_v3_events)
+#plt.show()
 
 # events vs channel number
 # find the peak - gives channel number for an energy of  59.6 keV
@@ -41,25 +41,138 @@ plt.show()
 
 #Gaussian fit
 
-x = AM_241_v3_channel_n[120:220]
-y = AM_241_v3_events[120:220]
 
 
-n = len(x)                          
-mean = sum(x*y)/n                   
-sigma = sum(y*(x-mean)**2)/n        
+x = AM_241_v3_channel_n#[130:180]
+y = AM_241_v3_events#[130:180]
 
-def gaus(x,a,x0,sigma):
-    return a*np.exp(-(x-x0)**2/(2*sigma**2))
+# weighted arithmetic mean (corrected - check the section below)
+mean = sum(x * y) / sum(y)
+sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-popt,pcov = curve_fit(gaus,x,y,p0=[1,mean,sigma])
+def Gauss(x, a, x0, sigma):
+    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
-plt.plot(x,y,'b+:',label='data')
-plt.plot(x,gaus(x,*popt),'ro:',label='fit')
+popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
+
+plt.plot(x, y, 'b+:', label='data')
+plt.plot(x, Gauss(x, *popt), 'r-', label='fit')
 plt.legend()
-plt.title('Am_241_v3_fit')
-plt.xlabel('Channel_n')
-plt.ylabel('Events_N')
+plt.title('Am 241 v3 gauss fit')
+plt.xlabel('Channel')
+plt.ylabel('Counts')
 plt.show()
+
+
+uncerts = (np.sqrt(np.diag(pcov)))
+
+channel_no_am_241_v3 = popt[1]
+energy_am_241_v3 = 59.6
+
+
+
+#%%
+
+Cs_137_v3_df = pd.read_csv('Calibration_data_files/Cs_137_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'Voltage_V'])
+
+
+Cs_137_v3_df.plot(x = 'channel_n', y = 'Events_N')
+
+Cs_137_v3_events = Cs_137_v3_df['Events_N']
+
+Cs_137_v3_channel_n = Cs_137_v3_df['channel_n']
+
+plt.plot(Cs_137_v3_channel_n, Cs_137_v3_events)
+plt.show()
+
+x = Cs_137_v3_channel_n#[130:180]
+y = Cs_137_v3_events#[130:180]
+
+# weighted arithmetic mean (corrected - check the section below)
+mean = sum(x * y) / sum(y)
+sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
+
+def Gauss(x, a, x0, sigma):
+    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
+
+popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
+
+plt.plot(x, y, 'b+:', label='data')
+plt.plot(x, Gauss(x, *popt), 'r-', label='fit')
+plt.legend()
+plt.title('Cs_137 v3 gauss fit')
+plt.xlabel('Channel')
+plt.ylabel('Counts')
+plt.show()
+
+
+uncerts = (np.sqrt(np.diag(pcov)))
+
+channel_no_cs_137_v3 = popt[1]
+energy_cs_137_v3 = 662
+
+#%%
+
+Co_57_v3_df = pd.read_csv('Calibration_data_files/Co_57.csv', skiprows = 2, names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'Voltage_V'])
+#error handling on removing invalid datat
+
+Co_57_v3_df.plot(x = 'channel_n', y = 'Events_N')
+
+#%%
+
+Co_57_v3_events = Co_57_v3_df['Events_N']
+
+Co_57_v3_channel_n = Co_57_v3_df['channel_n']
+
+plt.plot(Co_57_v3_channel_n, Co_57_v3_events)
+plt.show()
+
+x = Co_57_v3_channel_n#[130:180]
+y = Co_57_v3_events#[130:180]
+
+# weighted arithmetic mean (corrected - check the section below)
+mean = sum(x * y) / sum(y)
+sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
+
+def Gauss(x, a, x0, sigma):
+    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
+
+popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
+
+plt.plot(x, y, 'b+:', label='data')
+plt.plot(x, Gauss(x, *popt), 'r-', label='fit')
+plt.legend()
+plt.title('Co_57 v3 gauss fit')
+plt.xlabel('Channel')
+plt.ylabel('Counts')
+plt.show()
+
+
+uncerts = (np.sqrt(np.diag(pcov)))
+
+channel_no_Co_57_v3 = popt[1]
+energy_cs_137_v3 = 122
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

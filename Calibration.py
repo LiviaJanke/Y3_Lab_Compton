@@ -196,13 +196,12 @@ energy_cs_137_v3 = 662
 
 #%%
 
-Co_57_v3_df = pd.read_csv('Calibration_data_files/Co_57.csv', skiprows = 2, nrows = 511, names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'Voltage_V'])
+Co_57_v3_df = pd.read_csv('Calibration_data_files/Co_57.csv', skiprows = 2567, nrows = 511, names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'Voltage_V'])
 #error handling on removing invalid datat
 
 
 Co_57_v3_df.plot(x = 'channel_n', y = 'Events_N')
 
-#%%
 
 Co_57_v3_events = Co_57_v3_df['Events_N']
 
@@ -218,10 +217,8 @@ plt.show()
 # Different input voltage needed ? Or problem with the Cassy software?
 # Didn't look like all zeroes when measured - maybe an issue with data acquisition?
 
-
-#%%
-x = Co_57_v3_channel_n#[130:180]
-y = Co_57_v3_events#[130:180]
+x = Co_57_v3_channel_n[4:19]
+y = Co_57_v3_events[4:19]
 
 # weighted arithmetic mean (corrected - check the section below)
 mean = sum(x * y) / sum(y)
@@ -243,12 +240,22 @@ plt.show()
 
 uncerts = (np.sqrt(np.diag(pcov)))
 
-channel_no_Co_57_v3 = popt[1]
-energy_cs_137_v3 = 122
+channel_no_Co_57 = popt[1]
+energy_Co_57 = 122
+energy_Co_57_uncert = uncerts[1]
 
 
+#%%
 
+energies = np.array((energy_am_241, energy_Co_57))
+channels = np.array((mean_channel_num_am_241, channel_no_Co_57))
 
+plt.plot(channels, energies)
+
+# does not look quite right
+# unfortunately
+# most likely some issue with my code
+# try again tomorrow
 
 
 

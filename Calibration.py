@@ -82,7 +82,7 @@ plt.show()
 uncerts_am_241_v3 = (np.sqrt(np.diag(pcov)))
 
 channel_no_am_241_v3 = popt[1]
-energy_am_241 = 59.6
+energy_am_241 = 59.54
 
 channel_no_am_241_v3_uncert = uncerts_am_241_v3[1]
 

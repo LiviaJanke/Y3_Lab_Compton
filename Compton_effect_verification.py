@@ -56,10 +56,9 @@ deg_45_v1_df =  pd.read_csv('Angles_200s_meas/45_deg_v1.csv', skiprows = 2,  nam
 deg_45_v2_df =  pd.read_csv('Angles_200s_meas/45_deg_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_45_v3_df =  pd.read_csv('Angles_200s_meas/45_deg_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 
-#deg_50_background_df = pd.read_csv('Angles_200s_meas/50_deg_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 
 # I didn't save a csv version of the 50 deg backgorund file - need to do this on the lab computer
-
+deg_50_background_df = pd.read_csv('Angles_200s_meas/50_deg_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_50_v1_df =  pd.read_csv('Angles_200s_meas/50_deg_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_50_v2_df =  pd.read_csv('Angles_200s_meas/50_deg_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_50_v3_df =  pd.read_csv('Angles_200s_meas/50_deg_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
@@ -102,7 +101,9 @@ deg_110_v2_300s_df =  pd.read_csv('Angles_200s_meas/110_deg_300s_v2.csv', skipro
 
 # No background file measured for 110 degrees - need to go back and record this
 
+#%%
 
+calibrated_energies = np.loadtxt('calibrated_energies.csv')
 
 #%%
 
@@ -117,11 +118,24 @@ deg_45_v1_counts = deg_45_v1_df['Events_N']
 deg_45_v1_channels = deg_45_v1_df['channel_n']
 
 deg_45_compton = deg_45_v1_counts - deg_45_background_counts
-plt.plot(deg_45_background_energies, deg_45_compton)
+plt.plot(calibrated_energies, deg_45_compton)
 
 #%%
 
-# Skipping 50 for now since no background file
+
+deg_50_background_counts = deg_50_background_df['Events_N']
+deg_50_background_channels = deg_50_background_df['channel_n']
+deg_50_background_energies = deg_50_background_df['Energy_keV']
+
+
+deg_50_v1_counts = deg_50_v1_df['Events_N']
+deg_50_v1_channels = deg_50_v1_df['channel_n']
+
+deg_50_compton = deg_50_v1_counts - deg_50_background_counts
+plt.plot(deg_50_background_energies, deg_50_compton)
+
+#%%
+
 
 deg_60_background_counts = deg_60_background_df['Events_N']
 deg_60_background_channels = deg_60_background_df['channel_n']
@@ -234,9 +248,9 @@ expected_90 = equation_1(90 * np.pi / 180)
 expected_100 = equation_1(100 * np.pi / 180)
 expected_110 = equation_1(110 * np.pi / 180)
 
-angles = np.array((45, 60, 70, 80, 90, 100))
+angles = np.array((45, 50, 60, 70, 80, 90, 100))
 
-expected_vals = np.array((expected_45, expected_60, expected_70, expected_80, expected_90, expected_100))
+expected_vals = np.array((expected_45, expected_50, expected_60, expected_70, expected_80, expected_90, expected_100))
 
 
 print(angles)
@@ -305,6 +319,59 @@ energy_deg_45_uncert = uncerts_deg_45[1]
 # shouldn't really makea difference since channel numbers aren't part of the fit?
 
 #%%
+
+# 50 degrees
+
+plt.plot(deg_50_background_energies, deg_50_compton, marker = 'x', linewidth = 0)
+
+# add an offset to make positive
+
+# doesn't really matter as we are only interested in the shape and the x location of the peak
+
+
+deg_50_compton_offset = deg_50_compton + 10
+
+# want to look at energies from 380 to 520
+# corresponding channels: 244, 328
+
+
+plt.plot(deg_50_background_energies[244:328], deg_50_compton_offset[244:328], marker = 'x', linewidth = 0)
+
+# use these ranges for gaussian fitting
+
+x = deg_50_background_energies[244:328]
+
+y = deg_50_compton_offset[244:328]
+
+
+# weighted arithmetic mean (corrected - check the section below)
+mean = sum(x * y) / sum(y)
+sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
+
+
+
+popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
+
+plt.plot(x, y, 'b+:', label='data')
+plt.plot(x, Gauss(x, *popt), 'r-', label='fit')
+plt.legend()
+plt.title('Deg 50 v1 gauss fit')
+plt.xlabel('Energy')
+plt.ylabel('Counts')
+plt.show()
+
+
+uncerts_deg_50 = (np.sqrt(np.diag(pcov)))
+
+energy_deg_50 = popt[1]
+
+
+energy_deg_50_uncert = uncerts_deg_50[1]
+
+
+#%%
+
+
 
 # looking at deg 60 data
 
@@ -537,9 +604,9 @@ energy_deg_100_uncert = uncerts_deg_100[1]
 
 # plotting measured compton vals against angles
 
-measured_energies = np.array((energy_deg_45, energy_deg_60, energy_deg_70, energy_deg_80, energy_deg_90, energy_deg_100))
+measured_energies = np.array((energy_deg_45, energy_deg_50, energy_deg_60, energy_deg_70, energy_deg_80, energy_deg_90, energy_deg_100))
 
-measured_energies_uncerts = np.array((energy_deg_45_uncert, energy_deg_60_uncert, energy_deg_70_uncert, energy_deg_80_uncert, energy_deg_90_uncert, energy_deg_100_uncert))
+measured_energies_uncerts = np.array((energy_deg_45_uncert, energy_deg_50_uncert, energy_deg_60_uncert, energy_deg_70_uncert, energy_deg_80_uncert, energy_deg_90_uncert, energy_deg_100_uncert))
 
 plt.errorbar(angles, measured_energies, yerr = measured_energies_uncerts, label = 'measured')
 

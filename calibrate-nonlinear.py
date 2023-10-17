@@ -21,6 +21,18 @@ from scipy.stats import linregress
 def Gauss(x, a, x0, sigma):
     return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
+
+# first part with least squares
+from scipy.optimize import curve_fit
+
+# second part about ODR
+from scipy.odr import ODR, Model, Data, RealData
+
+# style and notebook integration of the plots
+import seaborn as sns
+
+
+
 #%%
 
 Am_241_625V_v1_df = pd.read_csv('Calibration_data_files/Am__241_625V_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
@@ -196,8 +208,7 @@ y = Cs_137_625V_events[385:450]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
+
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -233,8 +244,6 @@ y = Cs_137_625V_v2_events[385:450]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -268,9 +277,6 @@ y = Cs_137_625V_v3_events[385:450]
 # weighted arithmetic mean (corrected - check the section below)
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
-
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -337,8 +343,6 @@ y = Co_57_625V_v1_events[84:107]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -374,8 +378,6 @@ y = Co_57_625V_v2_events[84:107]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -410,8 +412,6 @@ y = Co_57_625V_v3_events[84:107]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -478,9 +478,6 @@ y = Ba_133_625V_v1_events[:50]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
-
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
 plt.plot(x, y, 'b+:', label='data')
@@ -515,8 +512,6 @@ y = Ba_133_625V_v2_events[:50]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -549,8 +544,6 @@ y = Ba_133_625V_v3_events[:50]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -601,8 +594,6 @@ y = Ba_133_625V_v1_events[50:100]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -638,9 +629,6 @@ y = Ba_133_625V_v2_events[50:100]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
-
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
 plt.plot(x, y, 'b+:', label='data')
@@ -672,8 +660,6 @@ y = Ba_133_625V_v3_events[50:100]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -724,9 +710,6 @@ y = Ba_133_625V_v1_events[220:300]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
-
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
 plt.plot(x, y, 'b+:', label='data')
@@ -761,9 +744,6 @@ y = Ba_133_625V_v2_events[220:300]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
-
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
 plt.plot(x, y, 'b+:', label='data')
@@ -794,9 +774,6 @@ y = Ba_133_625V_v3_events[220:300]
 # weighted arithmetic mean (corrected - check the section below)
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
-
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -859,9 +836,6 @@ y = Na_22_625V_v1_events[290:350]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
-
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
 plt.plot(x, y, 'b+:', label='data')
@@ -896,8 +870,6 @@ y = Na_22_625V_v2_events[290:350]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -932,8 +904,6 @@ y = Na_22_625V_v3_events[290:350]
 mean = sum(x * y) / sum(y)
 sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
 
-def Gauss(x, a, x0, sigma):
-    return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
 popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
@@ -1048,7 +1018,7 @@ plt.plot(x_testarray, y_predicted, label = 'Linear Regression')
 plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'data points', capsize = 1, linewidth = 0.1, marker = '.')
 
 
-plt.ylabel('Energyu (keV)')
+plt.ylabel('Energy (keV)')
 plt.xlabel('Channel Number')
 plt.legend()
 plt.title('Linear Regression')
@@ -1060,29 +1030,83 @@ print(coeffs)
 print(intercept)
 print(score)
 
+#%%
+
+# save the output data points as a csv file
+df = pd.read_csv("channel_nums_energies.csv", skiprows = 1, names = ['x', 'y', 'Dx'])
+
+
+#%%
+
+# curve fit to include this non-linearity in the energy calibration
+
+# the curve is only at low energies - fit to this section?
+
+
+#def f_model(x, a, c):
+#    return np.log((a + x)**2 / (x - c)**2)
+
+# making a new model function that fits to the data
+
+def f_model(x, a, c):
+    return (a * x) + (c * x**2)
+
+estimate = f_model(x_testarray, 1.6, 1e-9)
+
+plt.plot(x_testarray, estimate, label = 'model', marker = '.', linewidth = 0)
+plt.plot(xvals, yvals, label = 'data', marker = 'x', linewidth = 0)
+plt.legend()
 
 
 
+#%%
+
+# running curve fit routine
 
 
+popt, pcov = curve_fit(
+    f=f_model,       # model function
+    xdata=xvals,   # x data
+    ydata=yvals,   # y data
+    p0=(1.6, 1e-9),      # initial value of the parameters
+    sigma= xvals_err   # uncertainties on y
+)
+
+print(popt)
 
 
+#%%
+
+a_opt, c_opt = popt
+print("a = ", a_opt)
+print("c = ", c_opt)
+
+perr = np.sqrt(np.diag(pcov))
+Da, Dc = perr
+print("a = %6.2f +/- %4.2f" % (a_opt, Da))
+print("c = %6.2f +/- %4.2f" % (c_opt, Dc))
+
+R2 = np.sum((f_model(xvals, a_opt, c_opt) - yvals.mean())**2) / np.sum((yvals - yvals.mean())**2)
+print("r^2 = %10.6f" % R2)
 
 
+estimates_opt = f_model(x_testarray, a_opt, c_opt)
 
+plt.plot(x_testarray, estimates_opt, label = 'model', marker = '.', linewidth = 0)
+plt.plot(xvals, yvals, label = 'data', marker = 'x', linewidth = 0)
+plt.legend()
 
+#%%
 
+# applying the calibration to the channel numbers
 
+channel_nums_array =  Am_241_625V_v1_channel_n
 
+energy_vals_array = f_model(channel_nums_array, a_opt, c_opt)
 
+np.savetxt('calibrated_energies.csv', energy_vals_array)
 
-
-
-
-
-
-
-
+#%%
 
 
 

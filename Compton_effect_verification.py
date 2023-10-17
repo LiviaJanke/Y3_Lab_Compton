@@ -105,6 +105,8 @@ deg_110_v2_300s_df =  pd.read_csv('Angles_200s_meas/110_deg_300s_v2.csv', skipro
 
 calibrated_energies = np.loadtxt('calibrated_energies.csv')
 
+autocalibrated_energies = deg_45_background_df['Energy_keV']
+
 #%%
 
 # Analysing Data
@@ -585,7 +587,6 @@ uncerts_deg_100 = (np.sqrt(np.diag(pcov)))
 
 energy_deg_100 = popt[1]
 
-
 energy_deg_100_uncert = uncerts_deg_100[1]
 
 
@@ -605,4 +606,7 @@ plt.grid()
 plt.legend()
 plt.show()
 
+
+
 #%%
+

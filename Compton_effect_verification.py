@@ -111,8 +111,6 @@ calibrated_energies = np.loadtxt('calibrated_energies.csv')
 
 deg_45_background_counts = deg_45_background_df['Events_N']
 deg_45_background_channels = deg_45_background_df['channel_n']
-deg_45_background_energies = deg_45_background_df['Energy_keV']
-
 
 deg_45_v1_counts = deg_45_v1_df['Events_N']
 deg_45_v1_channels = deg_45_v1_df['channel_n']
@@ -125,28 +123,26 @@ plt.plot(calibrated_energies, deg_45_compton)
 
 deg_50_background_counts = deg_50_background_df['Events_N']
 deg_50_background_channels = deg_50_background_df['channel_n']
-deg_50_background_energies = deg_50_background_df['Energy_keV']
+
 
 
 deg_50_v1_counts = deg_50_v1_df['Events_N']
 deg_50_v1_channels = deg_50_v1_df['channel_n']
 
 deg_50_compton = deg_50_v1_counts - deg_50_background_counts
-plt.plot(deg_50_background_energies, deg_50_compton)
+plt.plot(calibrated_energies, deg_50_compton)
 
 #%%
 
 
 deg_60_background_counts = deg_60_background_df['Events_N']
 deg_60_background_channels = deg_60_background_df['channel_n']
-deg_60_background_energies = deg_60_background_df['Energy_keV']
-
 
 deg_60_v1_counts = deg_60_v1_df['Events_N']
 deg_60_v1_channels = deg_60_v1_df['channel_n']
 
 deg_60_compton = deg_60_v1_counts - deg_60_background_counts
-plt.plot(deg_60_background_energies, deg_60_compton)
+plt.plot(calibrated_energies, deg_60_compton)
 
 # These earlier readings haven't been calibrated to energy, so the energies are actually just channel numbers
 
@@ -155,54 +151,48 @@ plt.plot(deg_60_background_energies, deg_60_compton)
 
 deg_70_background_counts = deg_70_background_df['Events_N']
 deg_70_background_channels = deg_70_background_df['channel_n']
-deg_70_background_energies = deg_70_background_df['Energy_keV']
-
 
 deg_70_v1_counts = deg_70_v1_df['Events_N']
 deg_70_v1_channels = deg_70_v1_df['channel_n']
 
 deg_70_compton = deg_70_v1_counts - deg_70_background_counts
-plt.plot(deg_70_background_energies, deg_70_compton)
+plt.plot(calibrated_energies, deg_70_compton)
 
 #%%
 
 deg_80_background_counts = deg_80_background_df['Events_N']
 deg_80_background_channels = deg_80_background_df['channel_n']
-deg_80_background_energies = deg_80_background_df['Energy_keV']
-
 
 deg_80_v1_counts = deg_80_v1_df['Events_N']
 deg_60_v1_channels = deg_60_v1_df['channel_n']
 
 deg_80_compton = deg_80_v1_counts - deg_60_background_counts
-plt.plot(deg_80_background_energies, deg_80_compton)
+plt.plot(calibrated_energies, deg_80_compton)
 
 
 #%%
 
 deg_90_background_counts = deg_90_background_df['Events_N']
 deg_90_background_channels = deg_90_background_df['channel_n']
-deg_90_background_energies = deg_90_background_df['Energy_keV']
 
 deg_90_v1_counts = deg_90_v1_df['Events_N']
 deg_90_v1_channels = deg_90_v1_df['channel_n']
 
 deg_90_compton = deg_90_v1_counts - deg_90_background_counts
 
-plt.plot(deg_90_background_energies, deg_90_compton)
+plt.plot(calibrated_energies, deg_90_compton)
 
 #%%
 
 deg_90_background_300s_counts = deg_90_background_300s_df['Events_N']
 deg_90_background_300s_channels = deg_90_background_300s_df['channel_n']
-deg_90_background_300s_energies = deg_90_background_300s_df['Energy_keV']
 
 deg_90_v1_300s_counts = deg_90_v1_300s_df['Events_N']
 deg_90_v1_300s_channels = deg_90_v1_300s_df['channel_n']
 
 deg_90_300s_compton = deg_90_v1_300s_counts - deg_90_background_300s_counts
 
-plt.plot(deg_90_background_300s_energies, deg_90_300s_compton)
+plt.plot(calibrated_energies, deg_90_300s_compton)
 
 # seems uncalibrated - apply a manual calibration to this dataset
 
@@ -210,14 +200,13 @@ plt.plot(deg_90_background_300s_energies, deg_90_300s_compton)
 
 deg_100_background_300s_counts = deg_100_background_300s_df['Events_N']
 deg_100_background_300s_channels = deg_100_background_300s_df['channel_n']
-deg_100_background_300s_energies = deg_100_background_300s_df['Energy_keV']
 
 deg_100_v1_300s_counts = deg_100_v1_300s_df['Events_N']
 deg_100_v1_300s_channels = deg_100_v1_300s_df['channel_n']
 
 deg_100_300s_compton = deg_100_v1_300s_counts - deg_100_background_300s_counts
 
-plt.plot(deg_90_background_energies, deg_100_300s_compton)
+plt.plot(calibrated_energies, deg_100_300s_compton)
 
 #%%
 
@@ -260,7 +249,7 @@ print(expected_vals)
 
 # Looking at 45 degrees first, decently strong peak near to expected value
 
-plt.plot(deg_45_background_energies, deg_45_compton, marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies, deg_45_compton, marker = 'x', linewidth = 0)
 
 # add an offset to make positive
 
@@ -273,11 +262,11 @@ deg_45_compton_offset = deg_45_compton + 10
 # corresponding channels: 244, 328
 
 
-plt.plot(deg_45_background_energies[244:328], deg_45_compton_offset[244:328], marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies[244:328], deg_45_compton_offset[244:328], marker = 'x', linewidth = 0)
 
 # use these ranges for gaussian fitting
 
-x = deg_45_background_energies[244:328]
+x = calibrated_energies[244:328]
 
 y = deg_45_compton_offset[244:328]
 
@@ -322,7 +311,7 @@ energy_deg_45_uncert = uncerts_deg_45[1]
 
 # 50 degrees
 
-plt.plot(deg_50_background_energies, deg_50_compton, marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies, deg_50_compton, marker = 'x', linewidth = 0)
 
 # add an offset to make positive
 
@@ -335,11 +324,11 @@ deg_50_compton_offset = deg_50_compton + 10
 # corresponding channels: 244, 328
 
 
-plt.plot(deg_50_background_energies[244:328], deg_50_compton_offset[244:328], marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies[244:328], deg_50_compton_offset[244:328], marker = 'x', linewidth = 0)
 
 # use these ranges for gaussian fitting
 
-x = deg_50_background_energies[244:328]
+x = calibrated_energies[244:328]
 
 y = deg_50_compton_offset[244:328]
 
@@ -378,14 +367,14 @@ energy_deg_50_uncert = uncerts_deg_50[1]
 
 deg_60_compton_offset = deg_60_compton + 10
 
-plt.plot(deg_45_background_energies, deg_60_compton_offset, marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies, deg_60_compton_offset, marker = 'x', linewidth = 0)
 
 
 
 # want to look at energies from 300 to 420
 # corresponding channels: 195, 260
 
-plt.plot(deg_45_background_energies[200:280], deg_60_compton_offset[200:280], marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies[200:280], deg_60_compton_offset[200:280], marker = 'x', linewidth = 0)
 
 # No particularly recognisable Gaussian in this dataset
 # especially not around a value that makes sense
@@ -394,7 +383,7 @@ plt.plot(deg_45_background_energies[200:280], deg_60_compton_offset[200:280], ma
 
 # use these ranges for gaussian fitting
 
-x = deg_45_background_energies[200:280]
+x = calibrated_energies[200:280]
 y = deg_60_compton_offset[200:280]
 
 
@@ -429,7 +418,7 @@ deg_70_compton_offset = deg_70_compton + 15
 
 # Looking at 45 degrees first, decently strong peak near to expected value
 
-plt.plot(deg_70_background_energies, deg_70_compton_offset, marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies, deg_70_compton_offset, marker = 'x', linewidth = 0)
 
 
 
@@ -437,11 +426,11 @@ plt.plot(deg_70_background_energies, deg_70_compton_offset, marker = 'x', linewi
 # want to look at energies from 250 to 400
 # corresponding channels: 165, 256
 
-plt.plot(deg_70_background_energies[165:280], deg_70_compton_offset[165:280], marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies[165:280], deg_70_compton_offset[165:280], marker = 'x', linewidth = 0)
 
 # use these ranges for gaussian fitting
 
-x = deg_70_background_energies[165:280]
+x = calibrated_energies[165:280]
 
 y = deg_70_compton_offset[165:280]
 
@@ -477,17 +466,17 @@ deg_80_compton_offset = deg_80_compton + 15
 
 # Looking at 45 degrees first, decently strong peak near to expected value
 
-plt.plot(deg_80_background_energies, deg_80_compton_offset, marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies, deg_80_compton_offset, marker = 'x', linewidth = 0)
 
 
 # want to look at energies from 220 to 400
 # corresponding channels: 147 , 256
 
-plt.plot(deg_80_background_energies[140:280], deg_80_compton_offset[140:280], marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies[140:280], deg_80_compton_offset[140:280], marker = 'x', linewidth = 0)
 
 # use these ranges for gaussian fitting
 
-x = deg_80_background_energies[140:280]
+x = calibrated_energies[140:280]
 
 y = deg_80_compton_offset[140:280]
 
@@ -522,16 +511,16 @@ deg_90_compton_offset = deg_90_compton + 15
 
 # Looking at 45 degrees first, decently strong peak near to expected value
 
-plt.plot(deg_90_background_energies, deg_90_compton_offset, marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies, deg_90_compton_offset, marker = 'x', linewidth = 0)
 
 # want to look at energies from 200 to 400
 # corresponding channels: 135, 256
 
-plt.plot(deg_90_background_energies[130:250], deg_90_compton_offset[130:250], marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies[130:250], deg_90_compton_offset[130:250], marker = 'x', linewidth = 0)
 
 # use these ranges for gaussian fitting
 
-x = deg_90_background_energies[130:250]
+x = calibrated_energies[130:250]
 
 y = deg_90_compton_offset[130:250]
 
@@ -562,16 +551,16 @@ deg_100_300s_compton_offset = deg_100_300s_compton + 15
 
 # Looking at 45 degrees first, decently strong peak near to expected value
 
-plt.plot(deg_45_background_energies, deg_100_300s_compton_offset, marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies, deg_100_300s_compton_offset, marker = 'x', linewidth = 0)
 
 # want to look at energies from 200 to 300
 # corresponding channels: 135, 195
 
-plt.plot(deg_45_background_energies[140:210], deg_100_300s_compton_offset[140:210], marker = 'x', linewidth = 0)
+plt.plot(calibrated_energies[140:210], deg_100_300s_compton_offset[140:210], marker = 'x', linewidth = 0)
 
 # use these ranges for gaussian fitting
 
-x = deg_45_background_energies[140:210]
+x = calibrated_energies[140:210]
 
 y = deg_100_300s_compton_offset[140:210]
 

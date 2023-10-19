@@ -60,7 +60,8 @@ Ba_133_625V_v1_df = pd.read_csv('Calibration_data_files/Ba__133_625V_v1.csv', sk
 Ba_133_625V_v2_df = pd.read_csv('Calibration_data_files/Ba__133_625V_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time','Voltage_V'])
 Ba_133_625V_v3_df = pd.read_csv('Calibration_data_files/Ba__133_625V_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time','Voltage_V'])
 
-#Na 22
+# Na 22
+# peak between [290:350]
 
 Na_22_625V_v1_df = pd.read_csv('Calibration_data_files/Na__22_625V_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time','Voltage_V'])
 Na_22_625V_v2_df = pd.read_csv('Calibration_data_files/Na__22_625V_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time','Voltage_V'])
@@ -128,22 +129,120 @@ Co_v3_channel_no, Co_v3_channel_no_uncert, Co_v3_sigma = Gaussian_peak_fit(Co_57
 
 # Ba p1
 
-Ba_v1_channel_no_p1, Ba_v1_channel_no_uncert_p1, Ba_v1_sigma_p1 = Gaussian_peak_fit(Ba_133_625V_v1_df['channel_n'][0:50], Ba_133_625V_v1_df['Events_N'][0:50])
-Ba_v2_channel_no_p1, Ba_v2_channel_no_uncert_p1, Ba_v2_sigma_p1 = Gaussian_peak_fit(Ba_133_625V_v2_df['channel_n'][0:50], Ba_133_625V_v2_df['Events_N'][0:50])
-Ba_v3_channel_no_p1, Ba_v3_channel_no_uncert_p1, Ba_v3_sigma_p1 = Gaussian_peak_fit(Ba_133_625V_v3_df['channel_n'][0:50], Ba_133_625V_v3_df['Events_N'][0:50])
+Ba_v1_channel_no_p1, Ba_v1_channel_no_uncert_p1, Ba_v1_sigma_p1 = Gaussian_peak_fit(Ba_133_625V_v1_df['channel_n'][20:40], Ba_133_625V_v1_df['Events_N'][20:40])
+Ba_v2_channel_no_p1, Ba_v2_channel_no_uncert_p1, Ba_v2_sigma_p1 = Gaussian_peak_fit(Ba_133_625V_v2_df['channel_n'][20:40], Ba_133_625V_v2_df['Events_N'][20:40])
+Ba_v3_channel_no_p1, Ba_v3_channel_no_uncert_p1, Ba_v3_sigma_p1 = Gaussian_peak_fit(Ba_133_625V_v3_df['channel_n'][20:40], Ba_133_625V_v3_df['Events_N'][20:40])
 
 # Ba p2
 
-Ba_v1_channel_no_p2, Ba_v1_channel_no_uncert_p2, Ba_v1_sigma_p2 = Gaussian_peak_fit(Ba_133_625V_v1_df['channel_n'][50:100], Ba_133_625V_v1_df['Events_N'][50:100])
-Ba_v2_channel_no_p2, Ba_v2_channel_no_uncert_p2, Ba_v2_sigma_p2 = Gaussian_peak_fit(Ba_133_625V_v2_df['channel_n'][50:100], Ba_133_625V_v2_df['Events_N'][50:100])
-Ba_v3_channel_no_p2, Ba_v3_channel_no_uncert_p2, Ba_v3_sigma_p2 = Gaussian_peak_fit(Ba_133_625V_v3_df['channel_n'][50:100], Ba_133_625V_v3_df['Events_N'][50:100])
+Ba_v1_channel_no_p2, Ba_v1_channel_no_uncert_p2, Ba_v1_sigma_p2 = Gaussian_peak_fit(Ba_133_625V_v1_df['channel_n'][50:80], Ba_133_625V_v1_df['Events_N'][50:80])
+Ba_v2_channel_no_p2, Ba_v2_channel_no_uncert_p2, Ba_v2_sigma_p2 = Gaussian_peak_fit(Ba_133_625V_v2_df['channel_n'][50:80], Ba_133_625V_v2_df['Events_N'][50:80])
+Ba_v3_channel_no_p2, Ba_v3_channel_no_uncert_p2, Ba_v3_sigma_p2 = Gaussian_peak_fit(Ba_133_625V_v3_df['channel_n'][50:80], Ba_133_625V_v3_df['Events_N'][50:80])
+
+# Ba p3
+
+Ba_v1_channel_no_p3, Ba_v1_channel_no_uncert_p3, Ba_v1_sigma_p3 = Gaussian_peak_fit(Ba_133_625V_v1_df['channel_n'][220:260], Ba_133_625V_v1_df['Events_N'][220:260])
+Ba_v2_channel_no_p3, Ba_v2_channel_no_uncert_p3, Ba_v2_sigma_p3 = Gaussian_peak_fit(Ba_133_625V_v2_df['channel_n'][220:260], Ba_133_625V_v2_df['Events_N'][220:260])
+Ba_v3_channel_no_p3, Ba_v3_channel_no_uncert_p3, Ba_v3_sigma_p3 = Gaussian_peak_fit(Ba_133_625V_v3_df['channel_n'][220:260], Ba_133_625V_v3_df['Events_N'][220:260])
+
+# Na p1
+
+Na_v1_channel_no, Na_v1_channel_no_uncert, Na_v1_sigma = Gaussian_peak_fit(Na_22_625V_v1_df['channel_n'][290:350], Na_22_625V_v1_df['Events_N'][290:350])
+Na_v2_channel_no, Na_v2_channel_no_uncert, Na_v2_sigma = Gaussian_peak_fit(Na_22_625V_v2_df['channel_n'][290:350], Na_22_625V_v2_df['Events_N'][290:350])
+Na_v3_channel_no, Na_v3_channel_no_uncert, Na_v3_sigma = Gaussian_peak_fit(Na_22_625V_v3_df['channel_n'][290:350], Na_22_625V_v3_df['Events_N'][290:350])
 
 
 #%%
 
+energy_Am_241 = 59.54
+energy_Co_57 = 122
+energy_Cs_137 = 662
+energy_Ba_133_p1 = 30.85 
+energy_Ba_133_p2 = 81.0
+energy_Ba_133_p3 = 356.0
+energy_Na_22 = 511
+
+mean_channel_num_Am_241 = (Am_v1_channel_no + Am_v2_channel_no + Am_v3_channel_no) / 3
+
+mean_channel_num_Co_57 = (Co_v1_channel_no + Co_v2_channel_no + Co_v3_channel_no) / 3
+
+mean_channel_num_Cs_137 = (Cs_v1_channel_no + Cs_v2_channel_no + Cs_v3_channel_no) / 3
+
+mean_channel_num_Ba_133_p1 = (Ba_v1_channel_no_p1 + Ba_v2_channel_no_p1 + Ba_v3_channel_no_p1) / 3
+
+mean_channel_num_Ba_133_p2 = (Ba_v1_channel_no_p2 + Ba_v2_channel_no_p2 + Ba_v3_channel_no_p2) / 3
+
+mean_channel_num_Ba_133_p3 = (Ba_v1_channel_no_p3 + Ba_v2_channel_no_p3 + Ba_v3_channel_no_p3) / 3
+
+mean_channel_num_Na_22 = (Na_v1_channel_no + Na_v2_channel_no + Na_v3_channel_no) / 3
+
+mean_channel_num_am_241_uncert = (Am_v1_channel_no_uncert + Am_v2_channel_no_uncert + Am_v2_channel_no_uncert) / 3
+
+mean_channel_num_Co_57_uncert = (Co_v1_channel_no_uncert + Co_v2_channel_no_uncert + Co_v3_channel_no_uncert) / 3
+
+mean_channel_num_Cs_137_uncert = (Cs_v1_channel_no_uncert + Cs_v2_channel_no_uncert + Cs_v3_channel_no_uncert) / 3
+
+mean_channel_num_Ba_133_p1_uncert = (Ba_v1_channel_no_uncert_p1 + Ba_v2_channel_no_uncert_p1 + Ba_v3_channel_no_uncert_p1) / 3
+
+mean_channel_num_Ba_133_p2_uncert = (Ba_v1_channel_no_uncert_p2 + Ba_v2_channel_no_uncert_p2 + Ba_v3_channel_no_uncert_p2) / 3
+
+mean_channel_num_Ba_133_p3_uncert = (Ba_v1_channel_no_uncert_p3 + Ba_v2_channel_no_uncert_p3 + Ba_v3_channel_no_uncert_p3) / 3
+
+mean_channel_num_Na_22_uncert = (Na_v1_channel_no_uncert + Na_v2_channel_no_uncert + Na_v3_channel_no_uncert) / 3
 
 
 
+
+#%%
+
+energies = np.array((energy_Am_241, energy_Co_57, energy_Cs_137, energy_Ba_133_p1, energy_Ba_133_p2, energy_Ba_133_p3, energy_Na_22))
+
+channel_nums = np.array((mean_channel_num_Am_241, mean_channel_num_Co_57, mean_channel_num_Cs_137, mean_channel_num_Ba_133_p1, mean_channel_num_Ba_133_p2, mean_channel_num_Ba_133_p3, mean_channel_num_Na_22))
+
+channel_num_uncerts = np.array((mean_channel_num_am_241_uncert, mean_channel_num_Co_57_uncert, mean_channel_num_Cs_137_uncert, mean_channel_num_Ba_133_p1_uncert, mean_channel_num_Ba_133_p2_uncert, mean_channel_num_Ba_133_p3_uncert, mean_channel_num_Na_22_uncert))
+
+print(energies)
+print(channel_nums)
+print(channel_num_uncerts)
+
+plt.plot(channel_nums,energies, 'o')
+
+#%%
+
+# Extrapolation and fit to calibration data
+#fitting energy to channel nums
+
+
+x_testarray = np.linspace(0, 512, 1000)
+
+xvals = channel_nums
+xvals_err = channel_num_uncerts
+yvals = energies
+
+p, cov = np.polyfit(xvals,yvals,1, cov = True, w = 1/xvals_err)
+m = p[0]
+b = p[1]
+
+plt.plot(xvals, yvals, 'yo', x_testarray, m*x_testarray+b, '--k')
+plt.show()
+
+scd_ref = -1 * b
+
+vmr = m
+
+uncerts = (np.sqrt(np.diag(cov)))
+
+print('y-intercept is')
+print(scd_ref)
+print(uncerts[1])
+print('grad is')
+print(vmr)
+print(uncerts[0])
+
+
+#%%
+
+# fit a curve to find turning point for split betweem linear and nonlinear fit 
 
 
 

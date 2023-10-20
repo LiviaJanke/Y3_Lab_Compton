@@ -245,10 +245,121 @@ print(uncerts[0])
 # fit a curve to find turning point for split betweem linear and nonlinear fit 
 
 
+def f_model(x, a, c):
+    return (a * x) + (c * x**2)
+
+estimate = f_model(x_testarray, 1.6, 1e-9)
+
+plt.plot(x_testarray, estimate, label = 'model', marker = '.', linewidth = 0)
+plt.plot(xvals, yvals, label = 'data', marker = 'x', linewidth = 0)
+plt.legend()
+
+
+# running curve fit routine
+
+
+popt, pcov = curve_fit(
+    f=f_model,       # model function
+    xdata=xvals,   # x data
+    ydata=yvals,   # y data
+    p0=(1.6, 1e-9),      # initial value of the parameters
+    sigma= xvals_err   # uncertainties on y
+)
+
+print(popt)
+
+
+a_opt, c_opt = popt
+print("a = ", a_opt)
+print("c = ", c_opt)
+
+perr = np.sqrt(np.diag(pcov))
+Da, Dc = perr
+print("a = %6.2f +/- %4.2f" % (a_opt, Da))
+print("c = %6.2f +/- %4.2f" % (c_opt, Dc))
+
+R2 = np.sum((f_model(xvals, a_opt, c_opt) - yvals.mean())**2) / np.sum((yvals - yvals.mean())**2)
+print("r^2 = %10.6f" % R2)
+
+
+estimates_opt = f_model(x_testarray, a_opt, c_opt)
+
+#%%
+
+plt.plot(x_testarray, estimates_opt, label = 'model', marker = '.', linewidth = 0)
+plt.plot(xvals, yvals, label = 'data', marker = 'x', linewidth = 0)
+plt.legend()
+
+# Find turning point from curve fit
+
+# Derivative of model func = a + 2cx
+# Turning point where a + 2cx = 0 
+# x = -a / 2c
+
+turning_point = - a_opt / ( 2 * c_opt)
+print(turning_point)
+
+# Take 250 as an estimate for now
+
+
+
+#%%
+
+# Splitting calib fit into linear and nonlinear
+
+# Non-linear section 0 to 250
+
+
+def f_model(x, a, c):
+    return (a * x) + (c * x**2)
+
+estimate = f_model(x_testarray, 1.6, 1e-9)
+
+popt, pcov = curve_fit(
+    f=f_model,       # model function
+    xdata=xvals,   # x data
+    ydata=yvals,   # y data
+    p0=(1.6, 1e-9),      # initial value of the parameters
+    sigma= xvals_err   # uncertainties on y
+)
+
+print(popt)
+
+
+a_opt, c_opt = popt
+print("a = ", a_opt)
+print("c = ", c_opt)
+
+perr = np.sqrt(np.diag(pcov))
+Da, Dc = perr
+print("a = %6.2f +/- %4.2f" % (a_opt, Da))
+print("c = %6.2f +/- %4.2f" % (c_opt, Dc))
+
+R2 = np.sum((f_model(xvals, a_opt, c_opt) - yvals.mean())**2) / np.sum((yvals - yvals.mean())**2)
+print("r^2 = %10.6f" % R2)
+
+estimates_opt = f_model(x_testarray, a_opt, c_opt)
+
+plt.plot(x_testarray, estimates_opt, label = 'model', marker = '.', linewidth = 0)
+plt.plot(xvals, yvals, label = 'data', marker = 'x', linewidth = 0)
+plt.legend()
+
+
+channel_nums_array_nonlinear =  Am_v1_channel_no[0:250]
+channel_nums_array_linear = Am_v1_channel_no[251:]
+
+energy_vals_array_nonlinear = f_model(channel_nums_array_nonlinear, a_opt, c_opt)
+
+#%%
+
+# linear section 251 onwards
 
 
 
 
+#%%
+
+np.savetxt('calibrated_energies.csv', energy_vals_array)
 
 
 

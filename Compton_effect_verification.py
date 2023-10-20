@@ -103,7 +103,9 @@ deg_110_v2_300s_df =  pd.read_csv('Angles_200s_meas/110_deg_300s_v2.csv', skipro
 
 #%%
 
-calibrated_energies = np.loadtxt('calibrated_energies.csv')
+#calibrated_energies = np.loadtxt('calibrated_energies.csv')
+
+calibrated_energies = np.loadtxt('calibrated_energies_non_and_lin.csv')
 
 autocalibrated_energies = deg_45_background_df['Energy_keV']
 
@@ -119,6 +121,17 @@ deg_45_v1_channels = deg_45_v1_df['channel_n']
 
 deg_45_compton = deg_45_v1_counts - deg_45_background_counts
 plt.plot(calibrated_energies, deg_45_compton)
+
+#%%
+
+
+deg_45_v2_counts = deg_45_v2_df['Events_N']
+deg_45_v2_channels = deg_45_v2_df['channel_n']
+
+deg_45_v2_compton = deg_45_v2_counts - deg_45_background_counts
+plt.plot(calibrated_energies, deg_45_v2_compton)
+
+
 
 #%%
 

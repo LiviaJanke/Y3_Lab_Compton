@@ -67,6 +67,8 @@ Na_22_625V_v1_df = pd.read_csv('Calibration_data_files/Na__22_625V_v1.csv', skip
 Na_22_625V_v2_df = pd.read_csv('Calibration_data_files/Na__22_625V_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time','Voltage_V'])
 Na_22_625V_v3_df = pd.read_csv('Calibration_data_files/Na__22_625V_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time','Voltage_V'])
 
+channel_nos = Am_241_625V_v1_df['channel_n']
+
 #%%
 
 
@@ -205,7 +207,8 @@ print(energies)
 print(channel_nums)
 print(channel_num_uncerts)
 
-plt.plot(channel_nums,energies, 'o')
+plt.errorbar(channel_nums, energies, xerr = channel_num_uncerts, linewidth = 0, capsize = 1, marker = 'x', elinewidth = 1, label = 'vals')
+plt.legend()
 
 #%%
 
@@ -290,16 +293,7 @@ plt.plot(x_testarray, estimates_opt, label = 'model', marker = '.', linewidth = 
 plt.plot(xvals, yvals, label = 'data', marker = 'x', linewidth = 0)
 plt.legend()
 
-# Find turning point from curve fit
-
-# Derivative of model func = a + 2cx
-# Turning point where a + 2cx = 0 
-# x = -a / 2c
-
-turning_point = - a_opt / ( 2 * c_opt)
-print(turning_point)
-
-# Take 250 as an estimate for now
+# quadratics don@t have poinbts of infelction
 
 
 
@@ -307,7 +301,7 @@ print(turning_point)
 
 # Splitting calib fit into linear and nonlinear
 
-# Non-linear section 0 to 250
+# Non-linear section 0 to 100
 
 
 def f_model(x, a, c):
@@ -345,21 +339,68 @@ plt.plot(xvals, yvals, label = 'data', marker = 'x', linewidth = 0)
 plt.legend()
 
 
-channel_nums_array_nonlinear =  Am_v1_channel_no[0:250]
-channel_nums_array_linear = Am_v1_channel_no[251:]
+channel_nums_array_nonlinear =  channel_nos[0:120]
+channel_nums_array_linear = channel_nos[120:]
 
-energy_vals_array_nonlinear = f_model(channel_nums_array_nonlinear, a_opt, c_opt)
+energy_vals_array_nonlinear = np.array(f_model(channel_nums_array_nonlinear, a_opt, c_opt))
 
 #%%
 
 # linear section 251 onwards
 
+# linear regression fit
 
+X = xvals.reshape(-1, 1)
+Y = yvals.reshape(-1, 1)
+
+reg = LinearRegression().fit(X, Y, sample_weight=(xvals_err))
+
+
+score = reg.score(X, Y, sample_weight=(xvals_err))
+
+coeffs = reg.coef_
+
+intercept = reg.intercept_ * -1
+
+
+x_testarray = (np.linspace(120, 512, 10000)).reshape(-1, 1)
+
+y_predicted = reg.predict(x_testarray)
+
+plt.plot(x_testarray, y_predicted, label = 'Linear Regression')
+plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'data points', capsize = 1, linewidth = 0.1, marker = '.')
+
+
+plt.ylabel('Energy (keV)')
+plt.xlabel('Channel Number')
+plt.legend()
+plt.title('Linear Regression')
+plt.grid()
+plt.show()
+
+
+print(coeffs)
+print(intercept)
+print(score)
+
+
+channel_vals_array_linear = (np.linspace(120, 511, 391)).reshape(-1, 1)
+
+energy_vals_array_linear = np.hstack(reg.predict(channel_vals_array_linear))
 
 
 #%%
 
-np.savetxt('calibrated_energies.csv', energy_vals_array)
+total_energies_array = np.hstack((energy_vals_array_nonlinear, energy_vals_array_linear))
+
+#%%
+
+plt.plot(channel_nos, total_energies_array)
+plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'data points', capsize = 1, linewidth = 0.1, marker = '.')
+
+#%%
+
+np.savetxt('calibrated_energies_non_and_lin.csv', total_energies_array)
 
 
 

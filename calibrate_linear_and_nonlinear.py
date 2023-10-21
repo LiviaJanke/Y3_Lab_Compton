@@ -193,8 +193,6 @@ mean_channel_num_Ba_133_p3_uncert = (Ba_v1_channel_no_uncert_p3 + Ba_v2_channel_
 mean_channel_num_Na_22_uncert = (Na_v1_channel_no_uncert + Na_v2_channel_no_uncert + Na_v3_channel_no_uncert) / 3
 
 
-
-
 #%%
 
 energies = np.array((energy_Am_241, energy_Co_57, energy_Cs_137, energy_Ba_133_p1, energy_Ba_133_p2, energy_Ba_133_p3, energy_Na_22))
@@ -214,7 +212,6 @@ plt.legend()
 
 # Extrapolation and fit to calibration data
 #fitting energy to channel nums
-
 
 x_testarray = np.linspace(0, 512, 1000)
 
@@ -402,6 +399,12 @@ plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'data points', capsize = 1,
 
 np.savetxt('calibrated_energies_non_and_lin.csv', total_energies_array)
 
+
+#%%
+
+# making an energies to channels file 
+# Maybe later
+# Would be a lot more thorough
 
 
 

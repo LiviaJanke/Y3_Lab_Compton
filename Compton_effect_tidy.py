@@ -88,6 +88,10 @@ deg_110_v3_300s_df =  pd.read_csv('Angles_200s_meas/110_deg_300s_v3.csv', skipro
 
 #%%
 
+# Smearing input spectra with Gaussian resolution function
+
+
+#%%
 
 # calculating mean compton profiles
 
@@ -102,6 +106,9 @@ deg_90_compton = ((deg_90_v1_df['Events_N'] - deg_90_background_df['Events_N']) 
 deg_100_compton = ((deg_100_v1_300s_df['Events_N'] - deg_100_background_300s_df['Events_N']) + (deg_100_v2_300s_df['Events_N'] - deg_100_background_300s_df['Events_N']) + (deg_100_v3_300s_df['Events_N'] - deg_100_background_300s_df['Events_N'])) / 3
 
 compton_arrays_df = pd.concat([deg_45_compton, deg_50_compton, deg_60_compton, deg_70_compton, deg_80_compton, deg_90_compton, deg_100_compton], axis = 1,  keys=['45', '50', '60', '70', '80', '90', '100']) 
+
+channels = deg_45_background_df['channel_n']
+
 
 #%%
 
@@ -124,22 +131,34 @@ for i in np.arange(0, len(angles_rad)):
     
     angle = angles_deg[i]
     
+    print('angle degrees')
     print(angle)
     
     expect  = equation_1(angle * np.pi / 180)
     
+    print('expectation value')
     print(expect)
     
-    energies_fitting_range = np.linspace(int(expect - 40), int(expect + 40), 80)
+    channel_val = (expect - 23.35650629722379) / 1.6445278681687145
     
+    
+    print('channel value')
+    print(channel_val)
+    
+    energies_fitting_range = calibrated_energies[int(channel_val - 25): int(channel_val + 55)]
+    
+    print('energies fitting range')
     print(energies_fitting_range)
     
-    compton_array = compton_arrays_df[str(angle)] + 15
+    compton_array = compton_arrays_df[str(angle)] + 7
     
+    print('comtpon array')
     print(compton_array)
     
-    compton_fitting_range = compton_array[int(expect - 40): int(expect + 40)]
+    compton_fitting_range = compton_array[int(channel_val - 25): int(channel_val + 55)]
     
+    
+    print('compton fitting range')
     print(compton_fitting_range)
     
     x = energies_fitting_range
@@ -147,12 +166,15 @@ for i in np.arange(0, len(angles_rad)):
     y = compton_fitting_range
     
     plt.plot(x, y, 'b+:', label='data')
+    plt.plot(calibrated_energies, compton_array)
     
     # weighted arithmetic mean 
     mean = sum(x * y) / sum(y)
     sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
     
+    print('mean')
     print(mean)
+    print('sigma')
     print(sigma)
     
     popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
@@ -167,11 +189,23 @@ for i in np.arange(0, len(angles_rad)):
     
     uncerts = (np.sqrt(np.diag(pcov)))
     energy_uncert = uncerts[1]
-    energy= popt[1]
+    energy = popt[1]
 
     energies_compton.append(energy)
     uncerts_compton.append(energy_uncert)
     
+#%%
+
+plt.errorbar(angles_deg, energies_compton, yerr = uncerts_compton, label = 'measured')
+plt.plot(angles_deg, expected_vals, label = 'expected')
+plt.title('Compton Effect Verification')
+plt.grid()
+plt.legend()
+plt.show()
+
+#%%
+
+# 300s measurement series 
 
 
 

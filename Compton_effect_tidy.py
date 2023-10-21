@@ -67,6 +67,21 @@ def calculate_compton_spectrum(df, background_df):
 
 # importing data
 
+deg_10_background_300s_df = pd.read_csv('Angles_200s_meas/10_deg_300s_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_10_v1_300s_df =  pd.read_csv('Angles_200s_meas/10_deg_300s_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_10_v2_300s_df =  pd.read_csv('Angles_200s_meas/10_deg_300s_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_10_v3_300s_df =  pd.read_csv('Angles_200s_meas/10_deg_300s_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+
+deg_20_background_300s_df = pd.read_csv('Angles_200s_meas/20_deg_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_20_v1_300s_df =  pd.read_csv('Angles_200s_meas/20_deg_300s_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_20_v2_300s_df =  pd.read_csv('Angles_200s_meas/20_deg_300s_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_20_v3_300s_df =  pd.read_csv('Angles_200s_meas/20_deg_300s_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+
+deg_30_background_300s_df = pd.read_csv('Angles_200s_meas/30_deg_300s_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_30_v1_300s_df =  pd.read_csv('Angles_200s_meas/30_deg_300s_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_30_v2_300s_df =  pd.read_csv('Angles_200s_meas/30_deg_300s_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_30_v3_300s_df =  pd.read_csv('Angles_200s_meas/30_deg_300s_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+
 deg_45_background_df = pd.read_csv('Angles_200s_meas/45_deg_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_45_v1_df =  pd.read_csv('Angles_200s_meas/45_deg_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_45_v2_df =  pd.read_csv('Angles_200s_meas/45_deg_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
@@ -112,6 +127,22 @@ deg_110_v1_300s_df =  pd.read_csv('Angles_200s_meas/110_deg_300s_v1.csv', skipro
 deg_110_v2_300s_df =  pd.read_csv('Angles_200s_meas/110_deg_300s_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_110_v3_300s_df =  pd.read_csv('Angles_200s_meas/110_deg_300s_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 
+deg_120_background_300s_df = pd.read_csv('Angles_200s_meas/120_deg_300s_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_120_v1_300s_df =  pd.read_csv('Angles_200s_meas/120_deg_300s_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_120_v2_300s_df =  pd.read_csv('Angles_200s_meas/120_deg_300s_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_120_v3_300s_df =  pd.read_csv('Angles_200s_meas/120_deg_300s_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+
+deg_130_background_300s_df = pd.read_csv('Angles_200s_meas/130_deg_300s_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_130_v1_300s_df =  pd.read_csv('Angles_200s_meas/130_deg_300s_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_130_v2_300s_df =  pd.read_csv('Angles_200s_meas/130_deg_300s_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_130_v3_300s_df =  pd.read_csv('Angles_200s_meas/130_deg_300s_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+
+deg_140_background_300s_df = pd.read_csv('Angles_200s_meas/110_deg_300s_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_140_v1_300s_df =  pd.read_csv('Angles_200s_meas/110_deg_300s_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_140_v2_300s_df =  pd.read_csv('Angles_200s_meas/110_deg_300s_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_140_v3_300s_df =  pd.read_csv('Angles_200s_meas/110_deg_300s_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+
+
 
 calibrated_energies = np.loadtxt('calibrated_energies_non_and_lin.csv')
 
@@ -127,41 +158,61 @@ x = np.linspace(1, 511, 511)
 gauss_res_vals = Gauss_res_func(x)
 
 
-plt.plot(x, gauss_res_vals)
-plt.show()
+#plt.plot(x, gauss_res_vals)
+#plt.show()
 
-deg_45_background_counts = deg_45_background_df['Events_N']
-deg_45_background_channels = deg_45_background_df['channel_n']
+#deg_45_background_counts = deg_45_background_df['Events_N']
+#deg_45_background_channels = deg_45_background_df['channel_n']
 
-deg_45_v1_counts = deg_45_v1_df['Events_N']
+#deg_45_v1_counts = deg_45_v1_df['Events_N']
 
-deg_45_background_counts_smeared = np.convolve(deg_45_background_counts, gauss_res_vals, 'same')
+#deg_45_background_counts_smeared = np.convolve(deg_45_background_counts, gauss_res_vals, 'same')
 
-plt.plot(deg_45_background_channels, deg_45_background_counts)
-plt.show()
+#plt.plot(deg_45_background_channels, deg_45_background_counts)
+#plt.show()
 
-plt.plot(deg_45_background_channels, deg_45_background_counts_smeared)
-plt.show()
+#plt.plot(deg_45_background_channels, deg_45_background_counts_smeared)
+#plt.show()
 
-deg_45_v1_counts_smeared = np.convolve(deg_45_v1_counts, gauss_res_vals, 'same')
+#deg_45_v1_counts_smeared = np.convolve(deg_45_v1_counts, gauss_res_vals, 'same')
 
-plt.plot(deg_45_background_channels, deg_45_v1_counts)
-plt.show()
+#plt.plot(deg_45_background_channels, deg_45_v1_counts)
+#plt.show()
 
-plt.plot(deg_45_background_channels, deg_45_v1_counts_smeared)
-plt.show()
+#plt.plot(deg_45_background_channels, deg_45_v1_counts_smeared)
+#plt.show()
 
-deg_45_compton = deg_45_v1_counts - deg_45_background_counts
-deg_45_compton_smeared = deg_45_v1_counts_smeared - deg_45_background_counts_smeared
+#deg_45_compton = deg_45_v1_counts - deg_45_background_counts
+#deg_45_compton_smeared = deg_45_v1_counts_smeared - deg_45_background_counts_smeared
 
-plt.plot(calibrated_energies, deg_45_compton)
-plt.show()
+#plt.plot(calibrated_energies, deg_45_compton)
+#plt.show()
 
-plt.plot(calibrated_energies, deg_45_compton_smeared)
-plt.show()
+#plt.plot(calibrated_energies, deg_45_compton_smeared)
+#plt.show()
 
 #%%
 
+deg_10_compton_v1 = calculate_compton_spectrum(deg_10_v1_300s_df, deg_10_background_300s_df)
+deg_10_compton_v2 = calculate_compton_spectrum(deg_10_v2_300s_df, deg_10_background_300s_df)
+deg_10_compton_v3 = calculate_compton_spectrum(deg_10_v3_300s_df, deg_10_background_300s_df)
+
+deg_10_compton = (deg_10_compton_v1 + deg_10_compton_v2 + deg_10_compton_v3) / 3
+deg_10_compton_df = pd.DataFrame(deg_10_compton, columns = ['10'])
+
+deg_20_compton_v1 = calculate_compton_spectrum(deg_20_v1_300s_df, deg_20_background_300s_df)
+deg_20_compton_v2 = calculate_compton_spectrum(deg_20_v2_300s_df, deg_20_background_300s_df)
+deg_20_compton_v3 = calculate_compton_spectrum(deg_20_v3_300s_df, deg_20_background_300s_df)
+
+deg_20_compton = (deg_20_compton_v1 + deg_20_compton_v2 + deg_20_compton_v3) / 3
+deg_20_compton_df = pd.DataFrame(deg_20_compton, columns = ['20'])
+
+deg_30_compton_v1 = calculate_compton_spectrum(deg_30_v1_300s_df, deg_30_background_300s_df)
+deg_30_compton_v2 = calculate_compton_spectrum(deg_30_v2_300s_df, deg_30_background_300s_df)
+deg_30_compton_v3 = calculate_compton_spectrum(deg_30_v3_300s_df, deg_30_background_300s_df)
+
+deg_30_compton = (deg_30_compton_v1 + deg_30_compton_v2 + deg_30_compton_v3) / 3
+deg_30_compton_df = pd.DataFrame(deg_30_compton, columns = ['30'])
 
 deg_45_compton_v1 = calculate_compton_spectrum(deg_45_v1_df, deg_45_background_df)
 deg_45_compton_v2 = calculate_compton_spectrum(deg_45_v2_df, deg_45_background_df)
@@ -212,6 +263,35 @@ deg_100_compton_v3 = calculate_compton_spectrum(deg_100_v3_300s_df, deg_100_back
 deg_100_compton = (deg_100_compton_v1 + deg_100_compton_v2 + deg_100_compton_v3) / 3
 deg_100_compton_df = pd.DataFrame(deg_100_compton, columns = ['100'])
 
+deg_110_compton_v1 = calculate_compton_spectrum(deg_110_v1_300s_df, deg_110_background_300s_df)
+deg_110_compton_v2 = calculate_compton_spectrum(deg_110_v2_300s_df, deg_110_background_300s_df)
+deg_110_compton_v3 = calculate_compton_spectrum(deg_110_v3_300s_df, deg_110_background_300s_df)
+
+deg_110_compton = (deg_110_compton_v1 + deg_110_compton_v2 + deg_110_compton_v3) / 3
+deg_110_compton_df = pd.DataFrame(deg_110_compton, columns = ['110'])
+
+deg_120_compton_v1 = calculate_compton_spectrum(deg_120_v1_300s_df, deg_120_background_300s_df)
+deg_120_compton_v2 = calculate_compton_spectrum(deg_120_v2_300s_df, deg_120_background_300s_df)
+deg_120_compton_v3 = calculate_compton_spectrum(deg_120_v3_300s_df, deg_120_background_300s_df)
+
+deg_120_compton = (deg_120_compton_v1 + deg_120_compton_v2 + deg_120_compton_v3) / 3
+deg_120_compton_df = pd.DataFrame(deg_120_compton, columns = ['120'])
+
+deg_130_compton_v1 = calculate_compton_spectrum(deg_130_v1_300s_df, deg_130_background_300s_df)
+deg_130_compton_v2 = calculate_compton_spectrum(deg_130_v2_300s_df, deg_130_background_300s_df)
+deg_130_compton_v3 = calculate_compton_spectrum(deg_130_v3_300s_df, deg_130_background_300s_df)
+
+deg_130_compton = (deg_130_compton_v1 + deg_130_compton_v2 + deg_130_compton_v3) / 3
+deg_130_compton_df = pd.DataFrame(deg_130_compton, columns = ['130'])
+
+deg_140_compton_v1 = calculate_compton_spectrum(deg_140_v1_300s_df, deg_140_background_300s_df)
+deg_140_compton_v2 = calculate_compton_spectrum(deg_140_v2_300s_df, deg_140_background_300s_df)
+deg_140_compton_v3 = calculate_compton_spectrum(deg_140_v3_300s_df, deg_140_background_300s_df)
+
+deg_140_compton = (deg_140_compton_v1 + deg_140_compton_v2 + deg_140_compton_v3) / 3
+deg_140_compton_df = pd.DataFrame(deg_140_compton, columns = ['140'])
+
+
 # calculating mean compton profiles
 # without resolution function
 #deg_45_compton = ((deg_45_v1_df['Events_N'] - deg_45_background_df['Events_N']) + (deg_45_v2_df['Events_N'] - deg_45_background_df['Events_N']) + (deg_45_v3_df['Events_N'] - deg_45_background_df['Events_N'])) / 3
@@ -226,7 +306,7 @@ deg_100_compton_df = pd.DataFrame(deg_100_compton, columns = ['100'])
 
 #%%
 
-compton_arrays_df = pd.concat([deg_45_compton_df, deg_50_compton_df, deg_60_compton_df, deg_70_compton_df, deg_80_compton_df, deg_90_compton_df, deg_100_compton_df], axis = 1,  keys=['45', '50', '60', '70', '80', '90', '100']) 
+compton_arrays_df = pd.concat([deg_10_compton_df, deg_20_compton_df, deg_30_compton_df, deg_45_compton_df, deg_50_compton_df, deg_60_compton_df, deg_70_compton_df, deg_80_compton_df, deg_90_compton_df, deg_100_compton_df, deg_110_compton_df, deg_120_compton_df, deg_130_compton_df, deg_140_compton_df], axis = 1,  keys=['10', '20', '30', '45', '50', '60', '70', '80', '90', '100', '110', '120', '130', '140']) 
 
 channels = deg_45_background_df['channel_n']
 
@@ -238,7 +318,7 @@ calibrated_energies = np.loadtxt('calibrated_energies_non_and_lin.csv')
 autocalibrated_energies = deg_45_background_df['Energy_keV']
  
 
-angles_deg = np.array((45, 50, 60, 70, 80, 90, 100))
+angles_deg = np.array((10, 20, 30, 45, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140))
 
 angles_rad = angles_deg * np.pi / 180
 
@@ -266,7 +346,7 @@ for i in np.arange(0, len(angles_rad)):
     print('channel value')
     print(channel_val)
     
-    energies_fitting_range = calibrated_energies[int(channel_val - 25): int(channel_val + 55)]
+    energies_fitting_range = calibrated_energies[int(channel_val - 25): int(channel_val + 60)]
     
     energies_fitting_range_df = pd.DataFrame(energies_fitting_range)
     
@@ -279,7 +359,7 @@ for i in np.arange(0, len(angles_rad)):
     print('comtpon array')
     print(compton_array)
     
-    compton_fitting_range_df = compton_array[int(channel_val - 25): int(channel_val + 55)]
+    compton_fitting_range_df = compton_array[int(channel_val - 25): int(channel_val + 60)]
     
     compton_fitting_range = compton_fitting_range_df.values.flatten()
     
@@ -321,7 +401,7 @@ for i in np.arange(0, len(angles_rad)):
     
 #%%
 
-plt.errorbar(angles_deg, energies_compton, yerr = uncerts_compton, label = 'measured')
+plt.errorbar(angles_deg[:13], energies_compton[:13], yerr = uncerts_compton[:13], label = 'measured')
 plt.plot(angles_deg, expected_vals, label = 'expected')
 plt.title('Compton Effect Verification')
 plt.grid()

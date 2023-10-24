@@ -158,38 +158,39 @@ x = np.linspace(1, 511, 511)
 gauss_res_vals = Gauss_res_func(x)
 
 
-#plt.plot(x, gauss_res_vals)
-#plt.show()
+plt.plot(x, gauss_res_vals)
 
-#deg_45_background_counts = deg_45_background_df['Events_N']
-#deg_45_background_channels = deg_45_background_df['channel_n']
+plt.show()
 
-#deg_45_v1_counts = deg_45_v1_df['Events_N']
+deg_45_background_counts = deg_45_background_df['Events_N']
+deg_45_background_channels = deg_45_background_df['channel_n']
 
-#deg_45_background_counts_smeared = np.convolve(deg_45_background_counts, gauss_res_vals, 'same')
+deg_45_v1_counts = deg_45_v1_df['Events_N']
 
-#plt.plot(deg_45_background_channels, deg_45_background_counts)
-#plt.show()
+deg_45_background_counts_smeared = np.convolve(deg_45_background_counts, gauss_res_vals, 'same')
 
-#plt.plot(deg_45_background_channels, deg_45_background_counts_smeared)
-#plt.show()
+plt.plot(deg_45_background_channels, deg_45_background_counts)
+plt.show()
 
-#deg_45_v1_counts_smeared = np.convolve(deg_45_v1_counts, gauss_res_vals, 'same')
+plt.plot(deg_45_background_channels, deg_45_background_counts_smeared)
+plt.show()
 
-#plt.plot(deg_45_background_channels, deg_45_v1_counts)
-#plt.show()
+deg_45_v1_counts_smeared = np.convolve(deg_45_v1_counts, gauss_res_vals, 'same')
 
-#plt.plot(deg_45_background_channels, deg_45_v1_counts_smeared)
-#plt.show()
+plt.plot(deg_45_background_channels, deg_45_v1_counts)
+plt.show()
 
-#deg_45_compton = deg_45_v1_counts - deg_45_background_counts
-#deg_45_compton_smeared = deg_45_v1_counts_smeared - deg_45_background_counts_smeared
+plt.plot(deg_45_background_channels, deg_45_v1_counts_smeared)
+plt.show()
 
-#plt.plot(calibrated_energies, deg_45_compton)
-#plt.show()
+deg_45_compton = deg_45_v1_counts - deg_45_background_counts
+deg_45_compton_smeared = deg_45_v1_counts_smeared - deg_45_background_counts_smeared
 
-#plt.plot(calibrated_energies, deg_45_compton_smeared)
-#plt.show()
+plt.plot(calibrated_energies, deg_45_compton)
+plt.show()
+
+plt.plot(calibrated_energies, deg_45_compton_smeared)
+plt.show()
 
 #%%
 
@@ -306,7 +307,7 @@ deg_140_compton_df = pd.DataFrame(deg_140_compton, columns = ['140'])
 
 #%%
 
-compton_arrays_df = pd.concat([deg_10_compton_df, deg_20_compton_df, deg_30_compton_df, deg_45_compton_df, deg_50_compton_df, deg_60_compton_df, deg_70_compton_df, deg_80_compton_df, deg_90_compton_df, deg_100_compton_df, deg_110_compton_df, deg_120_compton_df, deg_130_compton_df, deg_140_compton_df], axis = 1,  keys=['10', '20', '30', '45', '50', '60', '70', '80', '90', '100', '110', '120', '130', '140']) 
+compton_arrays_df = pd.concat([deg_20_compton_df, deg_30_compton_df, deg_45_compton_df, deg_50_compton_df, deg_60_compton_df, deg_70_compton_df, deg_80_compton_df, deg_90_compton_df, deg_100_compton_df, deg_110_compton_df, deg_120_compton_df, deg_130_compton_df, deg_140_compton_df], axis = 1,  keys=[ '20', '30', '45', '50', '60', '70', '80', '90', '100', '110', '120', '130', '140']) 
 
 channels = deg_45_background_df['channel_n']
 
@@ -318,7 +319,7 @@ calibrated_energies = np.loadtxt('calibrated_energies_non_and_lin.csv')
 autocalibrated_energies = deg_45_background_df['Energy_keV']
  
 
-angles_deg = np.array((10, 20, 30, 45, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140))
+angles_deg = np.array((20, 30, 45, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140))
 
 angles_rad = angles_deg * np.pi / 180
 
@@ -332,10 +333,12 @@ for i in np.arange(0, len(angles_rad)):
     
     angle = angles_deg[i]
     
+    angle_rad = angles_rad[i]
+    
     print('angle degrees')
     print(angle)
     
-    expect  = equation_1(angle * np.pi / 180)
+    expect  = equation_1(angle_rad)
     
     print('expectation value')
     print(expect)
@@ -346,62 +349,121 @@ for i in np.arange(0, len(angles_rad)):
     print('channel value')
     print(channel_val)
     
-    energies_fitting_range = calibrated_energies[int(channel_val - 25): int(channel_val + 60)]
+    if angle < 100:
     
-    energies_fitting_range_df = pd.DataFrame(energies_fitting_range)
+        energies_fitting_range = calibrated_energies[int(channel_val - 25): int(channel_val + 60)]
     
-    print('energies fitting range')
-    print(energies_fitting_range)
+        energies_fitting_range_df = pd.DataFrame(energies_fitting_range)
     
-    compton_array = compton_arrays_df[str(angle)] + 7
+        print('energies fitting range')
+        print(energies_fitting_range)
+    
+        compton_array = compton_arrays_df[str(angle)] + 7
     
     
-    print('comtpon array')
-    print(compton_array)
+        print('comtpon array')
+        print(compton_array)
     
-    compton_fitting_range_df = compton_array[int(channel_val - 25): int(channel_val + 60)]
+        compton_fitting_range_df = compton_array[int(channel_val - 25): int(channel_val + 60)]
     
-    compton_fitting_range = compton_fitting_range_df.values.flatten()
+        compton_fitting_range = compton_fitting_range_df.values.flatten()
     
-    print('compton fitting range')
-    print(compton_fitting_range)
+        print('compton fitting range')
+        print(compton_fitting_range)
     
-    x = energies_fitting_range
+        x = energies_fitting_range
 
-    y = compton_fitting_range
+        y = compton_fitting_range
     
-    plt.plot(x, y, 'b+:', label='data')
-    plt.plot(calibrated_energies, compton_array)
+        plt.plot(x, y, 'b+:', label='data')
+        plt.plot(calibrated_energies, compton_array)
     
-    # weighted arithmetic mean 
-    mean = sum(x * y) / sum(y)
-    sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
+        # weighted arithmetic mean 
+        mean = sum(x * y) / sum(y)
+        sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
     
-    print('mean')
-    print(mean)
-    print('sigma')
-    print(sigma)
+        print('mean')
+        print(mean)
+        print('sigma')
+        print(sigma)
     
-    popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
+        popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
 
-    plt.plot(x, y, 'b+:', label='data')
-    plt.plot(x, Gauss(x, *popt), 'r-', label='fit')
-    plt.legend()
-    plt.title(str(angle))
-    plt.xlabel('Energy')
-    plt.ylabel('Counts')
-    plt.show()
+        plt.plot(x, y, 'b+:', label='data')
+        plt.plot(x, Gauss(x, *popt), 'r-', label='fit')
+        plt.legend()
+        plt.title(str(angle))
+        plt.xlabel('Energy')
+        plt.ylabel('Counts')
+        plt.show()
     
-    uncerts = (np.sqrt(np.diag(pcov)))
-    energy_uncert = uncerts[1]
-    energy = popt[1]
+        uncerts = (np.sqrt(np.diag(pcov)))
+        energy_uncert = uncerts[1]
+        energy = popt[1]
 
-    energies_compton.append(energy)
-    uncerts_compton.append(energy_uncert)
+        energies_compton.append(energy)
+        uncerts_compton.append(energy_uncert)
+        
+    else:
+        
+        energies_fitting_range = calibrated_energies[int(channel_val): int(channel_val + 75)]
+    
+        energies_fitting_range_df = pd.DataFrame(energies_fitting_range)
+    
+        print('energies fitting range')
+        print(energies_fitting_range)
+    
+        compton_array = compton_arrays_df[str(angle)] + 7
+    
+    
+        print('comtpon array')
+        print(compton_array)
+    
+        compton_fitting_range_df = compton_array[int(channel_val): int(channel_val + 75)]
+    
+        compton_fitting_range = compton_fitting_range_df.values.flatten()
+    
+        print('compton fitting range')
+        print(compton_fitting_range)
+    
+        x = energies_fitting_range
+
+        y = compton_fitting_range
+    
+        plt.plot(x, y, 'b+:', label='data')
+        plt.plot(calibrated_energies, compton_array)
+    
+        # weighted arithmetic mean 
+        mean = sum(x * y) / sum(y)
+        sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
+    
+        print('mean')
+        print(mean)
+        print('sigma')
+        print(sigma)
+    
+        popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
+
+        plt.plot(x, y, 'b+:', label='data')
+        plt.plot(x, Gauss(x, *popt), 'r-', label='fit')
+        plt.legend()
+        plt.title(str(angle))
+        plt.xlabel('Energy')
+        plt.ylabel('Counts')
+        plt.show()
+    
+        uncerts = (np.sqrt(np.diag(pcov)))
+        energy_uncert = uncerts[1]
+        energy = popt[1]
+
+        energies_compton.append(energy)
+        uncerts_compton.append(energy_uncert)
+        
+        
     
 #%%
 
-plt.errorbar(angles_deg[:13], energies_compton[:13], yerr = uncerts_compton[:13], label = 'measured')
+plt.errorbar(angles_deg, energies_compton, yerr = uncerts_compton[:13], label = 'measured')
 plt.plot(angles_deg, expected_vals, label = 'expected')
 plt.title('Compton Effect Verification')
 plt.grid()

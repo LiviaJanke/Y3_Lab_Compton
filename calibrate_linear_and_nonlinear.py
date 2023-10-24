@@ -5,13 +5,15 @@ Created on Thu Oct 19 11:10:01 2023
 @author: lme19
 """
 
-
+from __future__ import print_function, division
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import math as math
 import matplotlib.dates as mdates
 from scipy.optimize import curve_fit
+
+from PyAstronomy import pyasl 
 
 from sklearn.linear_model import LinearRegression
 from scipy.stats import linregress
@@ -153,6 +155,25 @@ Na_v1_channel_no, Na_v1_channel_no_uncert, Na_v1_sigma = Gaussian_peak_fit(Na_22
 Na_v2_channel_no, Na_v2_channel_no_uncert, Na_v2_sigma = Gaussian_peak_fit(Na_22_625V_v2_df['channel_n'][290:350], Na_22_625V_v2_df['Events_N'][290:350])
 Na_v3_channel_no, Na_v3_channel_no_uncert, Na_v3_sigma = Gaussian_peak_fit(Na_22_625V_v3_df['channel_n'][290:350], Na_22_625V_v3_df['Events_N'][290:350])
 
+#%%
+
+Am_mean_sigma = (Am_v1_sigma + Am_v2_sigma + Am_v3_sigma) / 3
+
+Cs_mean_sigma = (Cs_v1_sigma + Cs_v2_sigma + Cs_v3_sigma) / 3
+
+Co_mean_sigma = (Co_v1_sigma + Co_v2_sigma + Co_v3_sigma) / 3
+
+Ba_mean_sigma_p1 = (Ba_v1_sigma_p1 + Ba_v2_sigma_p1 + Ba_v3_sigma_p1) / 3
+
+Ba_mean_sigma_p2 = (Ba_v1_sigma_p2 + Ba_v2_sigma_p2 + Ba_v3_sigma_p2) / 3
+
+Ba_mean_sigma_p3 = (Ba_v1_sigma_p3 + Ba_v2_sigma_p3 + Ba_v3_sigma_p3) / 3
+
+Na_mean_sigma = (Na_v1_sigma + Na_v2_sigma + Na_v3_sigma) / 3
+
+mean_sigma = (Am_mean_sigma + Cs_mean_sigma + Co_mean_sigma + Ba_mean_sigma_p1 + Ba_mean_sigma_p2 + Ba_mean_sigma_p3 + Na_mean_sigma) / 7
+
+print(mean_sigma)
 
 #%%
 
@@ -193,8 +214,6 @@ mean_channel_num_Ba_133_p3_uncert = (Ba_v1_channel_no_uncert_p3 + Ba_v2_channel_
 mean_channel_num_Na_22_uncert = (Na_v1_channel_no_uncert + Na_v2_channel_no_uncert + Na_v3_channel_no_uncert) / 3
 
 
-
-
 #%%
 
 energies = np.array((energy_Am_241, energy_Co_57, energy_Cs_137, energy_Ba_133_p1, energy_Ba_133_p2, energy_Ba_133_p3, energy_Na_22))
@@ -214,7 +233,6 @@ plt.legend()
 
 # Extrapolation and fit to calibration data
 #fitting energy to channel nums
-
 
 x_testarray = np.linspace(0, 512, 1000)
 
@@ -401,6 +419,57 @@ plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'data points', capsize = 1,
 #%%
 
 np.savetxt('calibrated_energies_non_and_lin.csv', total_energies_array)
+
+
+#%%
+
+# making an energies to channels file 
+# Maybe later
+# Would be a lot more thorough
+
+# Make a Gaussian to convolve with the measured spectra
+# using mean sigma and the pyastronomy broadening package
+
+# Set up an input spectrum
+x = np.linspace(1, 511, 1000)
+
+# Make a Gaussian
+
+#y  = 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

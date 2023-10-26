@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Oct 19 11:10:01 2023
+Created on Thu Oct 26 09:49:03 2023
 
 @author: lme19
 """
+
 
 from __future__ import print_function, division
 import numpy as np
@@ -414,53 +415,192 @@ total_energies_array = np.hstack((energy_vals_array_nonlinear, energy_vals_array
 plt.plot(channel_nos, total_energies_array)
 plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'data points', capsize = 1, linewidth = 0.1, marker = '.')
 
-#%%
-
-np.savetxt('calibrated_energies_non_and_lin.csv', total_energies_array)
-
 
 #%%
 
-# making an energies to channels file 
-# Maybe later
-# Would be a lot more thorough
+# Adding in the mean spectra
 
-# Make a Gaussian to convolve with the measured spectra
-# using mean sigma and the pyastronomy broadening package
+Am_channel_nos = (Am_241_625V_v1_df['channel_n'] + Am_241_625V_v2_df['channel_n'] + Am_241_625V_v3_df['channel_n']) / 3
+Am_events = (Am_241_625V_v1_df['Events_N'] + Am_241_625V_v2_df['Events_N'] + Am_241_625V_v3_df['Events_N']) / 3
 
-# Set up an input spectrum
-x = np.linspace(1, 511, 1000)
+Cs_channel_nos = (Cs_137_625V_df['channel_n'] + Cs_137_625V_v2_df['channel_n'] + Cs_137_625V_v3_df['channel_n']) / 3
+Cs_events = (Cs_137_625V_df['Events_N'] + Cs_137_625V_v2_df['Events_N'] + Cs_137_625V_v3_df['Events_N']) / 3
 
-# Make a Gaussian
+Co_channel_nos = (Co_57_625V_v1_df['channel_n'] + Co_57_625V_v2_df['channel_n'] + Co_57_625V_v3_df['channel_n']) / 3
+Co_events = (Co_57_625V_v1_df['Events_N'] + Co_57_625V_v2_df['Events_N'] + Co_57_625V_v3_df['Events_N']) / 3
 
-#y  = 
+Ba_channel_nos = (Ba_133_625V_v1_df['channel_n'] + Ba_133_625V_v2_df['channel_n'] + Ba_133_625V_v3_df['channel_n']) / 3
+Ba_events = (Ba_133_625V_v1_df['Events_N'] +  Ba_133_625V_v2_df['Events_N'] + Ba_133_625V_v3_df['Events_N']) / 3
 
+Na_channel_nos = (Na_22_625V_v1_df['channel_n'] + Na_22_625V_v2_df['channel_n'] + Na_22_625V_v3_df['channel_n']) / 3
+Na_events = (Na_22_625V_v1_df['Events_N'] + Na_22_625V_v2_df['Events_N'] + Na_22_625V_v3_df['Events_N']) / 3
 
+#%%
 
+# plots for presentation
 
+# Plotting all spectra
 
-
-
-
-
-
-
-
-
-
-
-
+plt.plot(Am_241_625V_v1_df['channel_n'], Am_241_625V_v1_df['Events_N'])
+plt.plot(Am_241_625V_v2_df['channel_n'], Am_241_625V_v2_df['Events_N'])
+plt.plot(Am_241_625V_v3_df['channel_n'], Am_241_625V_v3_df['Events_N'])
+plt.plot(Am_channel_nos, Am_events)
 
 
+plt.plot(Cs_137_625V_df['channel_n'], Cs_137_625V_df['Events_N'])
+plt.plot(Cs_137_625V_v2_df['channel_n'], Cs_137_625V_v2_df['Events_N'])
+plt.plot(Cs_137_625V_v3_df['channel_n'], Cs_137_625V_v3_df['Events_N'])
+plt.plot(Cs_channel_nos, Cs_events)
+
+
+plt.plot(Co_57_625V_v1_df['channel_n'], Co_57_625V_v1_df['Events_N'])
+plt.plot(Co_57_625V_v2_df['channel_n'], Co_57_625V_v2_df['Events_N'])
+plt.plot(Co_57_625V_v3_df['channel_n'], Co_57_625V_v3_df['Events_N'])
+plt.plot(Co_channel_nos, Co_events)
+
+
+plt.plot(Ba_133_625V_v1_df['channel_n'], Ba_133_625V_v1_df['Events_N'])
+plt.plot(Ba_133_625V_v2_df['channel_n'], Ba_133_625V_v2_df['Events_N'])
+plt.plot(Ba_133_625V_v3_df['channel_n'], Ba_133_625V_v3_df['Events_N'])
+plt.plot(Ba_channel_nos, Ba_events)
+
+
+plt.plot(Na_22_625V_v1_df['channel_n'], Na_22_625V_v1_df['Events_N'])
+plt.plot(Na_22_625V_v2_df['channel_n'], Na_22_625V_v2_df['Events_N'])
+plt.plot(Na_22_625V_v3_df['channel_n'], Na_22_625V_v3_df['Events_N'])
+plt.plot(Na_channel_nos, Na_events)
+
+
+
+# it's better to fit to a mean dataset than take a mean of the fits...
+
+#%%
+
+
+
+# Plot of mean spectra
+
+plt.plot(Am_channel_nos, Am_events, label = 'Am-241')
+plt.plot(Cs_channel_nos, Cs_events, label = 'Cs-137')
+plt.plot(Co_channel_nos, Co_events, label = 'Co-57')
+plt.plot(Ba_channel_nos, Ba_events, label = 'Ba-133')
+plt.plot(Na_channel_nos, Na_events, label = 'Na-22')
+plt.grid()
+plt.legend()
+plt.title('Spectra with Known Peak Energies for Calibration')
+plt.savefig('Mean_calibration_spectra.PNG', dpi = 400)
+
+#%%
+
+#plots of Gaussians
+
+def Gaussian_peak_fit(xarray, yarray, lower_lim, upper_lim, title):
+    
+    x_full = xarray
+    y_full = yarray
+    
+    x = xarray[lower_lim:upper_lim]
+    
+    y = yarray[lower_lim:upper_lim]
+    
+    # weighted arithmetic mean
+    mean = sum(x * y) / sum(y)
+    sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
+
+    
+    popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
+
+    plt.plot(x, y, 'b+:', label='data')
+    plt.plot(x, Gauss(x, *popt), 'r-', label='fit')
+    plt.plot(x_full, y_full)
+    plt.legend()
+    plt.title(title)
+    plt.xlabel('Channel')
+    plt.ylabel('Counts')
+    plt.grid()
+    plt.savefig(title + '_full_data')
+    plt.show()
+    
+    plt.plot(x, y, 'b+:', label='data')
+    plt.plot(x, Gauss(x, *popt), 'r-', label='fit')
+    plt.legend()
+    plt.title(title)
+    plt.xlabel('Channel')
+    plt.ylabel('Counts')
+    plt.grid()
+    plt.savefig(title)
+    plt.show()
+
+
+    uncerts = (np.sqrt(np.diag(pcov)))
+
+    channel_no = popt[1]
+    
+    channel_no_uncert = uncerts[1]
+    
+    return channel_no, channel_no_uncert, sigma
+
+
+
+Am_channel_no, Am_channel_no_uncert, Am_sigma = Gaussian_peak_fit(Am_channel_nos, Am_events, 40, 60, 'Am-241')
+Co_channel_no, Co_channel_no_uncert, Co_sigma = Gaussian_peak_fit(Co_channel_nos, Co_events, 84, 107, 'Co-57')
+Cs_channel_no, Cs_channel_no_uncert, Cs_sigma = Gaussian_peak_fit(Cs_channel_nos, Cs_events, 385, 450, 'Cs-137')
+Ba_channel_no_p1, Ba_channel_no_uncert_p1, Ba_sigma_p1 = Gaussian_peak_fit(Ba_channel_nos, Ba_events, 20, 40, 'Ba-133 Peak 1')
+Ba_channel_no_p2, Ba_channel_no_uncert_p2, Ba_sigma_p2 = Gaussian_peak_fit(Ba_channel_nos, Ba_events, 50, 80, 'Ba-133 Peak 2')
+Ba_channel_no_p3, Ba_channel_no_uncert_p3, Ba_sigma_p3 = Gaussian_peak_fit(Ba_channel_nos, Ba_events, 220, 260, 'Ba-133 Peak 3')
+Na_channel_no, Na_channel_no_uncert, Na_sigma = Gaussian_peak_fit(Na_channel_nos, Na_events, 290, 350, 'Na-22')
+
+#%%
+
+#Plotting all Gaussians together
+
+def Gaussian_peak_fit(xarray, yarray, lower_lim, upper_lim, title, title2):
+    
+    x_full = xarray
+    y_full = yarray
+    
+    x = xarray[lower_lim:upper_lim]
+    
+    y = yarray[lower_lim:upper_lim]
+    
+    # weighted arithmetic mean
+    mean = sum(x * y) / sum(y)
+    sigma = np.sqrt(sum(y * (x - mean)**2) / sum(y))
+
+    
+    popt,pcov = curve_fit(Gauss, x, y, p0=[max(y), mean, sigma])
+
+    plt.plot(x, y, marker = '.', linewidth = 0, color = 'black')
+    plt.plot(x, Gauss(x, *popt), label=title)
+    plt.plot(x_full, y_full)
+    plt.legend()
+    plt.title(title2)
+    plt.xlabel('Channel')
+    plt.ylabel('Counts')
+    plt.grid(color='black', linestyle='--', linewidth=0.5)
+    plt.savefig(title2)
+#    plt.show()
+    
+    uncerts = (np.sqrt(np.diag(pcov)))
+
+    channel_no = popt[1]
+    
+    channel_no_uncert = uncerts[1]
+    
+    return channel_no, channel_no_uncert, sigma
 
 
 
 
+Am_channel_no, Am_channel_no_uncert, Am_sigma = Gaussian_peak_fit(Am_channel_nos, Am_events, 40, 60, 'Am-241', 'All Gaussian Fits')
+Co_channel_no, Co_channel_no_uncert, Co_sigma = Gaussian_peak_fit(Co_channel_nos, Co_events, 84, 107, 'Co-57', 'All Gaussian Fits')
+Cs_channel_no, Cs_channel_no_uncert, Cs_sigma = Gaussian_peak_fit(Cs_channel_nos, Cs_events, 385, 450, 'Cs-137', 'All Gaussian Fits')
+Ba_channel_no_p1, Ba_channel_no_uncert_p1, Ba_sigma_p1 = Gaussian_peak_fit(Ba_channel_nos, Ba_events, 20, 40, 'Ba-133 Peak 1','All Gaussian Fits')
+Ba_channel_no_p2, Ba_channel_no_uncert_p2, Ba_sigma_p2 = Gaussian_peak_fit(Ba_channel_nos, Ba_events, 50, 80, 'Ba-133 Peak 2', 'All Gaussian Fits')
+Ba_channel_no_p3, Ba_channel_no_uncert_p3, Ba_sigma_p3 = Gaussian_peak_fit(Ba_channel_nos, Ba_events, 220, 260, 'Ba-133 Peak 3','All Gaussian Fits')
+Na_channel_no, Na_channel_no_uncert, Na_sigma = Gaussian_peak_fit(Na_channel_nos, Na_events, 290, 350, 'Na-22', 'All Gaussian Fits')
 
-
-
-
-
+#%%
 
 
 

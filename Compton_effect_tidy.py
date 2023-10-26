@@ -87,15 +87,30 @@ deg_45_v1_df =  pd.read_csv('Angles_200s_meas/45_deg_v1.csv', skiprows = 2,  nam
 deg_45_v2_df =  pd.read_csv('Angles_200s_meas/45_deg_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_45_v3_df =  pd.read_csv('Angles_200s_meas/45_deg_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 
+deg_45_300s_background_df = pd.read_csv('Angles_200s_meas/45_deg_300s_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_45_300s_v1_df =  pd.read_csv('Angles_200s_meas/45_deg_300s_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_45_300s_v2_df =  pd.read_csv('Angles_200s_meas/45_deg_300s_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_45_300s_v3_df =  pd.read_csv('Angles_200s_meas/45_deg_300s_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+
 deg_50_background_df = pd.read_csv('Angles_200s_meas/50_deg_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_50_v1_df =  pd.read_csv('Angles_200s_meas/50_deg_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_50_v2_df =  pd.read_csv('Angles_200s_meas/50_deg_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_50_v3_df =  pd.read_csv('Angles_200s_meas/50_deg_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 
+deg_50_300s_background_df = pd.read_csv('Angles_200s_meas/50_deg_300s_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_50_300s_v1_df =  pd.read_csv('Angles_200s_meas/50_deg_300s_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_50_300s_v2_df =  pd.read_csv('Angles_200s_meas/50_deg_300s_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_50_300s_v3_df =  pd.read_csv('Angles_200s_meas/50_deg_300s_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+
 deg_60_background_df = pd.read_csv('Angles_200s_meas/60_deg_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_60_v1_df =  pd.read_csv('Angles_200s_meas/60_deg_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_60_v2_df =  pd.read_csv('Angles_200s_meas/60_deg_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_60_v3_df =  pd.read_csv('Angles_200s_meas/60_deg_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+
+deg_60_300s_background_df = pd.read_csv('Angles_200s_meas/60_deg_300s_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_60_300s_v1_df =  pd.read_csv('Angles_200s_meas/60_deg_300s_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_60_300s_v2_df =  pd.read_csv('Angles_200s_meas/60_deg_300s_v2.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
+deg_60_300s_v3_df =  pd.read_csv('Angles_200s_meas/60_deg_300s_v3.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 
 deg_70_background_df = pd.read_csv('Angles_200s_meas/70_deg_background.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
 deg_70_v1_df =  pd.read_csv('Angles_200s_meas/70_deg_v1.csv', skiprows = 2,  names = ['time_s', 'Events_N', 'channel_n', 'Energy_keV', 'rate_r_1/S', 'dead_time', 'Voltage_V'])
@@ -229,12 +244,26 @@ deg_50_compton_v3 = calculate_compton_spectrum(deg_50_v3_df, deg_50_background_d
 deg_50_compton = (deg_50_compton_v1 + deg_50_compton_v2 + deg_50_compton_v3) / 3
 deg_50_compton_df = pd.DataFrame(deg_50_compton, columns = ['50'])
 
+deg_50_compton_300s_v1 = calculate_compton_spectrum(deg_50_300s_v1_df, deg_50_300s_background_df)
+deg_50_compton_300s_v2 = calculate_compton_spectrum(deg_50_300s_v2_df, deg_50_300s_background_df)
+deg_50_compton_300s_v3 = calculate_compton_spectrum(deg_50_300s_v3_df, deg_50_300s_background_df)
+
+deg_50_compton_300s = (deg_50_compton_300s_v1 + deg_50_compton_300s_v2 + deg_50_compton_300s_v3) / 3
+deg_50_compton_300s_df = pd.DataFrame(deg_50_compton_300s, columns = ['50'])
+
 deg_60_compton_v1 = calculate_compton_spectrum(deg_60_v1_df, deg_60_background_df)
 deg_60_compton_v2 = calculate_compton_spectrum(deg_60_v2_df, deg_60_background_df)
 deg_60_compton_v3 = calculate_compton_spectrum(deg_60_v3_df, deg_60_background_df)
 
 deg_60_compton = (deg_60_compton_v1 + deg_60_compton_v2 + deg_60_compton_v3) / 3
 deg_60_compton_df = pd.DataFrame(deg_60_compton, columns = ['60'])
+
+deg_60_compton_300s_v1 = calculate_compton_spectrum(deg_60_300s_v1_df, deg_60_300s_background_df)
+deg_60_compton_300s_v2 = calculate_compton_spectrum(deg_60_300s_v2_df, deg_60_300s_background_df)
+deg_60_compton_300s_v3 = calculate_compton_spectrum(deg_60_300s_v3_df, deg_60_300s_background_df)
+
+deg_60_compton_300s = (deg_60_compton_300s_v1 + deg_60_compton_300s_v2 + deg_60_compton_300s_v3) / 3
+deg_60_compton_300s_df = pd.DataFrame(deg_60_compton_300s, columns = ['60'])
 
 deg_70_compton_v1 = calculate_compton_spectrum(deg_70_v1_df, deg_70_background_df)
 deg_70_compton_v2 = calculate_compton_spectrum(deg_70_v2_df, deg_70_background_df)
@@ -307,7 +336,7 @@ deg_140_compton_df = pd.DataFrame(deg_140_compton, columns = ['140'])
 
 #%%
 
-compton_arrays_df = pd.concat([deg_20_compton_df, deg_30_compton_df, deg_45_compton_df, deg_50_compton_df, deg_60_compton_df, deg_70_compton_df, deg_80_compton_df, deg_90_compton_df, deg_100_compton_df, deg_110_compton_df, deg_120_compton_df, deg_130_compton_df, deg_140_compton_df], axis = 1,  keys=[ '20', '30', '45', '50', '60', '70', '80', '90', '100', '110', '120', '130', '140']) 
+compton_arrays_df = pd.concat([deg_20_compton_df, deg_30_compton_df, deg_45_compton_df, deg_50_compton_df, deg_50_compton_300s_df, deg_60_compton_df, deg_60_compton_300s_df, deg_70_compton_df, deg_80_compton_df, deg_90_compton_df, deg_100_compton_df, deg_110_compton_df, deg_120_compton_df, deg_130_compton_df, deg_140_compton_df], axis = 1,  keys=[ '20', '30', '45', '50','50_300s', '60', '60_300s', '70', '80', '90', '100', '110', '120', '130', '140']) 
 
 channels = deg_45_background_df['channel_n']
 
@@ -319,7 +348,7 @@ calibrated_energies = np.loadtxt('calibrated_energies_non_and_lin.csv')
 autocalibrated_energies = deg_45_background_df['Energy_keV']
  
 
-angles_deg = np.array((20, 30, 45, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140))
+angles_deg = np.array((20, 30, 45, 50, 50, 60, 60, 70, 80, 90, 100, 110, 120, 130, 140))
 
 angles_rad = angles_deg * np.pi / 180
 
@@ -463,7 +492,7 @@ for i in np.arange(0, len(angles_rad)):
     
 #%%
 
-plt.errorbar(angles_deg, energies_compton, yerr = uncerts_compton[:13], label = 'measured')
+plt.errorbar(angles_deg, energies_compton, yerr = uncerts_compton, label = 'measured')
 plt.plot(angles_deg, expected_vals, label = 'expected')
 plt.title('Compton Effect Verification')
 plt.grid()
@@ -472,7 +501,9 @@ plt.show()
 
 #%%
 
-# 300s measurement series 
+# Proper error propagation
+# Needs to include calibration error, angle error, and fit error
+
 
 
 

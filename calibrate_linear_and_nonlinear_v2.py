@@ -193,7 +193,14 @@ p, cov = np.polyfit(xvals,yvals,1, cov = True, w = 1/xvals_err)
 m = p[0]
 b = p[1]
 
-plt.plot(xvals, yvals, 'yo', x_testarray, m*x_testarray+b, '--k')
+plt.plot(xvals, yvals, 'yo', label = 'Data')
+plt.plot(x_testarray, m*x_testarray+b, '--k', label = 'Fit (y = mx + b)')
+plt.legend()
+plt.grid()
+plt.xlabel('Channel Number')
+plt.ylabel('Energy (keV)')
+plt.title('Linear Calibration using Polyfit')
+plt.savefig('Linear Calibration using Polyfit', dpi = 400)
 plt.show()
 
 scd_ref = -1 * b
@@ -209,6 +216,45 @@ print('grad is')
 print(vmr)
 print(uncerts[0])
 
+#%%
+
+# Linear Regression fit to full range
+
+X = xvals.reshape(-1, 1)
+Y = yvals.reshape(-1, 1)
+
+reg = LinearRegression().fit(X, Y, sample_weight=(xvals_err))
+
+
+score = reg.score(X, Y, sample_weight=(xvals_err))
+
+coeffs = reg.coef_
+
+intercept = reg.intercept_ * -1
+
+
+x_testarray = (np.linspace(0, 512, 10000)).reshape(-1, 1)
+
+y_predicted = reg.predict(x_testarray)
+
+plt.plot(x_testarray, y_predicted, label = 'Fit (y = mx + c)')
+plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'Data', capsize = 1, linewidth = 0.1, marker = '.')
+
+
+plt.ylabel('Energy (keV)')
+plt.xlabel('Channel Number')
+plt.legend()
+plt.title('Linear Regression Fit')
+plt.grid()
+plt.savefig('Linear Regression Fit', dpi = 400)
+plt.show()
+
+
+print(coeffs)
+print(intercept)
+print(score)
+
+
 
 #%%
 
@@ -221,8 +267,9 @@ def f_model(x, a, c):
 estimate = f_model(x_testarray, 1.6, 1e-9)
 
 plt.plot(x_testarray, estimate, label = 'model', marker = '.', linewidth = 0)
-plt.plot(xvals, yvals, label = 'data', marker = 'x', linewidth = 0)
+plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'data', capsize = 1, linewidth = 0.1, marker = '.')
 plt.legend()
+plt.show()
 
 
 # running curve fit routine
@@ -254,21 +301,22 @@ print("r^2 = %10.6f" % R2)
 
 estimates_opt = f_model(x_testarray, a_opt, c_opt)
 
-#%%
-
-plt.plot(x_testarray, estimates_opt, label = 'model', marker = '.', linewidth = 0)
-plt.plot(xvals, yvals, label = 'data', marker = 'x', linewidth = 0)
+plt.plot(x_testarray, estimates_opt, label = 'Fit ($y = ax + cx^2)$', marker = '.', linewidth = 0)
+plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'Data', capsize = 1, elinewidth = 0.1, marker = 'X', linewidth = 0)
+plt.xlabel('Channel Number')
+plt.ylabel('Energy (keV)')
 plt.legend()
-
-# quadratics don@t have poinbts of infelction
-
-
+plt.grid()
+plt.savefig('Nonlinear calibration', dpi = 400)
+plt.show()
 
 #%%
 
 # Splitting calib fit into linear and nonlinear
 
-# Non-linear section 0 to 100
+# Non-linear section 0 to 120
+
+x_testarray = np.linspace(0, 120, 1000)
 
 
 def f_model(x, a, c):
@@ -278,10 +326,10 @@ estimate = f_model(x_testarray, 1.6, 1e-9)
 
 popt, pcov = curve_fit(
     f=f_model,       # model function
-    xdata=xvals,   # x data
-    ydata=yvals,   # y data
+    xdata=xvals[0:120],   # x data
+    ydata=yvals[0:120],   # y data
     p0=(1.6, 1e-9),      # initial value of the parameters
-    sigma= xvals_err   # uncertainties on y
+    sigma= xvals_err[0:120]   # uncertainties on y
 )
 
 print(popt)
@@ -296,7 +344,7 @@ Da, Dc = perr
 print("a = %6.2f +/- %4.2f" % (a_opt, Da))
 print("c = %6.2f +/- %4.2f" % (c_opt, Dc))
 
-R2 = np.sum((f_model(xvals, a_opt, c_opt) - yvals.mean())**2) / np.sum((yvals - yvals.mean())**2)
+R2 = np.sum((f_model(xvals[0:120], a_opt, c_opt) - yvals[0:120].mean())**2) / np.sum((yvals[0:120] - yvals[0:120].mean())**2)
 print("r^2 = %10.6f" % R2)
 
 estimates_opt = f_model(x_testarray, a_opt, c_opt)
@@ -304,6 +352,12 @@ estimates_opt = f_model(x_testarray, a_opt, c_opt)
 plt.plot(x_testarray, estimates_opt, label = 'model', marker = '.', linewidth = 0)
 plt.plot(xvals, yvals, label = 'data', marker = 'x', linewidth = 0)
 plt.legend()
+plt.ylabel('Energy (keV)')
+plt.xlabel('Channel Number')
+plt.title('Non-linear Section')
+plt.grid()
+plt.savefig('Non-linear Section', dpi = 400)
+plt.show()
 
 
 channel_nums_array_nonlinear =  channel_nos[0:120]
@@ -335,14 +389,15 @@ x_testarray = (np.linspace(120, 512, 10000)).reshape(-1, 1)
 y_predicted = reg.predict(x_testarray)
 
 plt.plot(x_testarray, y_predicted, label = 'Linear Regression')
-plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'data points', capsize = 1, linewidth = 0.1, marker = '.')
+plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'data points', capsize = 1, elinewidth = 0.1, marker = '.', linewidth = 0)
 
 
 plt.ylabel('Energy (keV)')
 plt.xlabel('Channel Number')
 plt.legend()
-plt.title('Linear Regression')
+plt.title('Linear Section')
 plt.grid()
+plt.savefig('Linear Section', dpi = 400)
 plt.show()
 
 
@@ -362,29 +417,21 @@ total_energies_array = np.hstack((energy_vals_array_nonlinear, energy_vals_array
 
 #%%
 
-plt.plot(channel_nos, total_energies_array)
-plt.errorbar(xvals, yvals, xerr = xvals_err, label = 'data points', capsize = 1, linewidth = 0.1, marker = '.')
+plt.plot(channel_nos, total_energies_array, label = 'Fit')
+plt.errorbar(xvals, yvals, xerr = xvals_err, capsize = 1, elinewidth = 1, marker = '.', linewidth = 0, label = 'Data')
+plt.ylabel('Energy (keV)')
+plt.xlabel('Channel Number')
+plt.legend()
+plt.title('Non-linear and Linear Calibration Fit')
+plt.grid()
+plt.savefig('Non-linear and Linear Calibration Fit', dpi = 400)
+plt.show()
 
 #%%
 
 np.savetxt('calibrated_energies_non_and_lin.csv', total_energies_array)
 
 
-#%%
-
-# making an energies to channels file 
-# Maybe later
-# Would be a lot more thorough
-
-# Make a Gaussian to convolve with the measured spectra
-# using mean sigma and the pyastronomy broadening package
-
-# Set up an input spectrum
-x = np.linspace(1, 511, 1000)
-
-# Make a Gaussian
-
-#y  = 
 
 
 
